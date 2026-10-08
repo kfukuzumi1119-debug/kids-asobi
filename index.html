@@ -13,7 +13,6 @@
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#EEF5FA">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"あそんでまなぼ","url":"https://kfukuzumi1119-debug.github.io/kids-asobi/","description":"2歳・3歳・4歳の子どもが遊びながら学べる無料の知育ページ。いろ・かず・どうぶつ・かたち・ひらがな・ピアノの6つのあそびを、タップすると声で教えてくれます。クイズに正解すると星がたまります。スマホ・タブレットで登録なしですぐ遊べます。","applicationCategory":"EducationalApplication","operatingSystem":"All","inLanguage":"ja","isAccessibleForFree":true,"audience":{"@type":"PeopleAudience","suggestedMinAge":2,"suggestedMaxAge":4},"offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
 </script>
@@ -529,7 +528,7 @@ function renderHome() {
   app.innerHTML = topBar('<h1>あそんでまなぼ</h1>') + `
     <div class="hello"><p>2〜4さい むけの あそびばです。タップすると こえで おしえてくれるよ。せいかいすると ★が たまります。</p></div>
     <nav class="tiles">${ORDER.map(id => { const p = PAGES[id]; return `<a class="tile" href="#${id}" style="background:${p.color}"><span class="pic">${TILE_PIC[id]}</span><b>${p.title}</b><small>${p.sub}</small></a>`; }).join('')}</nav>
-    <div class="note"><b>おうちの方へ</b>　各ページに「さわる（ずかん）」と「クイズ」があります。2さいは「さわる」で名前を聞くところから、3〜4さいは「クイズ」がおすすめです。音声はブラウザの読み上げ機能を使うので、音が出ないときは端末のマナーモードや音量を確認してください。</div>`;
+    <div class="note"><b>おうちの方へ</b>　各ページに「さわる（ずかん）」と「クイズ」があります。2さいは「さわる」で名前を聞くところから、3〜4さいは「クイズ」がおすすめです。音声はブラウザの読み上げ機能を使うので、音が出ないときは端末のマナーモードや音量を確認してください。<br>年中〜年長さん向けには、小学校受験のペーパー対策ができる <a href="https://kfukuzumi1119-debug.github.io/kids-asobi/juken/" style="color:var(--c-katachi)">おうちじゅけんドリル</a> もあります。</div>`;
   bindSound();
 }
 function renderPage(id) {
