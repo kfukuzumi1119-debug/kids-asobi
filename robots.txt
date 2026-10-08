@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kfukuzumi1119-debug.github.io/kids-asobi/sitemap.xml
