@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>あそんでまなぼ｜2〜4歳の知育あそび（いろ・かず・ひらがな）</title>
-<meta name="description" content="2歳・3歳・4歳の子どもが遊びながら学べる無料の知育ページ。いろ・かず・どうぶつ・かたち・ひらがな・ピアノの6つのあそびを、タップすると声で教えてくれます。クイズに正解すると星がたまります。スマホ・タブレットで登録なしですぐ遊べます。">
+<meta name="description" content="2歳・3歳・4歳の子どもが遊びながら学べる無料の知育ページ。いろ・かず・かたち・ひらがな・どうぶつ・のりもの・たべもの・かげあて・くらべっこ（大きい小さい）・からだ・ペアさがし（神経衰弱）・ピアノ・おえかきの13のあそびを、タップすると声で教えてくれます。クイズに正解すると星がたまります。スマホ・タブレットで登録なしですぐ遊べます。">
 <link rel="canonical" href="https://kfukuzumi1119-debug.github.io/kids-asobi/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="あそんでまなぼ｜2〜4歳の知育あそび（いろ・かず・ひらがな）">
-<meta property="og:description" content="2歳・3歳・4歳の子どもが遊びながら学べる無料の知育ページ。いろ・かず・どうぶつ・かたち・ひらがな・ピアノの6つのあそびを、タップすると声で教えてくれます。クイズに正解すると星がたまります。スマホ・タブレットで登録なしですぐ遊べます。">
+<meta property="og:description" content="2歳・3歳・4歳の子どもが遊びながら学べる無料の知育ページ。いろ・かず・かたち・ひらがな・どうぶつ・のりもの・たべもの・かげあて・くらべっこ（大きい小さい）・からだ・ペアさがし（神経衰弱）・ピアノ・おえかきの13のあそびを、タップすると声で教えてくれます。クイズに正解すると星がたまります。スマホ・タブレットで登録なしですぐ遊べます。">
 <meta property="og:url" content="https://kfukuzumi1119-debug.github.io/kids-asobi/">
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"あそんでまなぼ","url":"https://kfukuzumi1119-debug.github.io/kids-asobi/","description":"2歳・3歳・4歳の子どもが遊びながら学べる無料の知育ページ。いろ・かず・どうぶつ・かたち・ひらがな・ピアノの6つのあそびを、タップすると声で教えてくれます。クイズに正解すると星がたまります。スマホ・タブレットで登録なしですぐ遊べます。","applicationCategory":"EducationalApplication","operatingSystem":"All","inLanguage":"ja","isAccessibleForFree":true,"audience":{"@type":"PeopleAudience","suggestedMinAge":2,"suggestedMaxAge":4},"offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+{"@context":"https://schema.org","@type":"WebApplication","name":"あそんでまなぼ","url":"https://kfukuzumi1119-debug.github.io/kids-asobi/","description":"2歳・3歳・4歳の子どもが遊びながら学べる無料の知育ページ。いろ・かず・かたち・ひらがな・どうぶつ・のりもの・たべもの・かげあて・くらべっこ（大きい小さい）・からだ・ペアさがし（神経衰弱）・ピアノ・おえかきの13のあそびを、タップすると声で教えてくれます。クイズに正解すると星がたまります。スマホ・タブレットで登録なしですぐ遊べます。","applicationCategory":"EducationalApplication","operatingSystem":"All","inLanguage":"ja","isAccessibleForFree":true,"audience":{"@type":"PeopleAudience","suggestedMinAge":2,"suggestedMaxAge":4},"offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
 </script>
 <style>[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,6 +26,7 @@
   --bg:#EEF5FA; --paper:#FFFFFF; --ink:#1E2940; --muted:#5B6782; --line:#D3E0EC; --soft:#E3EEF7;
   --good:#24985A; --goodbg:#E2F6EA; --star:#F5B400;
   --c-iro:#D9455A; --c-kazu:#C96A0C; --c-doubutsu:#2B8A50; --c-katachi:#2F72C2; --c-hiragana:#7A4FC4; --c-oto:#C24686;
+  --c-norimono:#1F7AA3; --c-tabemono:#A0582A; --c-kage:#3E4A66; --c-kuraberu:#8A6E00; --c-karada:#C4503A; --c-pair:#16857B; --c-oekaki:#9A3FB0;
   --shadow:0 5px 0 rgba(30,41,64,.13);
   --display:"Mochiy Pop One","Zen Maru Gothic","Hiragino Maru Gothic ProN","Meiryo",sans-serif;
   --body:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Meiryo",sans-serif;
@@ -157,6 +158,47 @@ button:focus-visible,a:focus-visible{outline:4px solid var(--c-katachi);outline-
 .spark{position:fixed;pointer-events:none;font-size:28px;z-index:10;animation:spark .9s ease-out forwards}
 @keyframes spark{from{transform:translate(-50%,-50%) scale(.4);opacity:1}to{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.1);opacity:0}}
 
+/* かげあて（ランプに てらされた かべ。どちらの テーマでも あかるい かべに くろい かげ） */
+.kage{display:grid;place-items:center;background:#FFF4D6;border-radius:28px;padding:16px;box-shadow:inset 0 0 40px rgba(160,110,0,.18)}
+.kage .em{font-size:clamp(110px,30vw,170px);line-height:1;filter:brightness(0);transition:filter .5s}
+.kage.show .em{filter:none}
+.card.kage{border-color:#F0DFAE}
+.card.kage .em{font-size:64px}
+
+/* くらべっこ */
+.cmp{display:flex;align-items:flex-end;justify-content:center;width:100%;min-height:120px}
+.rope{height:22px;border-radius:999px;align-self:center}
+.tower{display:flex;flex-direction:column-reverse;gap:3px}
+.tower i{display:block;width:40px;height:22px;border-radius:5px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.18)}
+.plate{display:flex;flex-wrap:wrap;justify-content:center;gap:2px;background:var(--soft);border-radius:50%;padding:18px 12px;max-width:180px;font-size:30px}
+
+/* からだ */
+.body-wrap{background:var(--paper);border-radius:28px;box-shadow:var(--shadow);padding:12px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.body-svg{width:min(100%,320px);height:auto}
+.body-svg [data-part]{cursor:pointer;transform-box:fill-box;transform-origin:center}
+.body-svg .lit{filter:drop-shadow(0 0 6px #F5B400) drop-shadow(0 0 3px #F5B400)}
+.partname{font-family:var(--display);font-size:clamp(28px,7vw,40px);color:var(--pc);min-height:1.4em}
+
+/* ペアさがし */
+.pairs{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:12px;width:min(100%,560px);margin:0 auto}
+.pc{aspect-ratio:3/4;border-radius:20px;border:4px solid var(--pc);background:var(--pc);display:grid;place-items:center;box-shadow:var(--shadow);font-size:clamp(40px,11vw,64px);color:#fff;font-family:var(--display)}
+.pc::before{content:"？";font-size:.6em;opacity:.55}
+.pc .face{display:none}
+.pc.open,.pc.done{background:var(--paper);animation:flip .25s}
+.pc.open::before,.pc.done::before{content:none}
+.pc.open .face,.pc.done .face{display:block}
+.pc.done{opacity:.7}
+@keyframes flip{from{transform:rotateY(90deg)}to{transform:none}}
+
+/* おえかき（かみは いつも しろ） */
+.palette{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center}
+.sw{width:44px;height:44px;border-radius:50%;border:4px solid var(--paper);box-shadow:0 0 0 2px var(--line)}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 4px var(--ink);transform:scale(1.1)}
+.stampbtn{width:52px;height:52px;border-radius:14px;border:3px solid var(--line);background:var(--paper);font-size:30px;line-height:1}
+.stampbtn[aria-pressed="true"]{border-color:var(--pc);background:var(--soft)}
+.canvas-wrap{background:#fff;border-radius:24px;box-shadow:var(--shadow);overflow:hidden;height:clamp(320px,58vh,560px);border:3px solid var(--line)}
+.canvas-wrap canvas{display:block;width:100%;height:100%;touch-action:none}
+
 @media (max-width:520px){
   .choice{min-height:110px;border-radius:22px}
   .board{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -169,7 +211,7 @@ button:focus-visible,a:focus-visible{outline:4px solid var(--c-katachi);outline-
 
 </head>
 <body>
-<noscript><h1>あそんでまなぼ</h1><p>2〜4歳向けの知育あそび（いろ・かず・どうぶつ・かたち・ひらがな・ピアノ）です。JavaScript をオンにすると遊べます。</p></noscript>
+<noscript><h1>あそんでまなぼ</h1><p>2〜4歳向けの知育あそび（いろ・かず・かたち・ひらがな・どうぶつ・のりもの・たべもの・かげあて・くらべっこ・からだ・ペアさがし・ピアノ・おえかき）です。JavaScript をオンにすると遊べます。</p></noscript>
 <div class="app" id="app"></div>
 
 <script>
@@ -247,6 +289,31 @@ const ANIMALS = [
   { name: 'ねずみ', sound: 'ちゅうちゅう', em: '🐭' }, { name: 'にわとり', sound: 'こけこっこー', em: '🐔' },
   { name: 'らいおん', label: 'ライオン', sound: 'がおー', em: '🦁' }, { name: 'ぞう', sound: 'ぱおーん', em: '🐘' },
 ];
+const VEHICLES = [
+  { name: 'くるま', sound: 'ぶっぶー', em: '🚗' }, { name: 'ばす', label: 'バス', sound: 'ぷっぷー', em: '🚌' },
+  { name: 'きゅうきゅうしゃ', sound: 'ぴーぽーぴーぽー', em: '🚑' }, { name: 'しょうぼうしゃ', sound: 'うーうー かんかん', em: '🚒' },
+  { name: 'ぱとかー', label: 'パトカー', sound: 'うーうー', em: '🚓' }, { name: 'でんしゃ', sound: 'がたんごとん', em: '🚃' },
+  { name: 'しんかんせん', sound: 'びゅーん', em: '🚄' }, { name: 'ひこうき', sound: 'ごおー', em: '✈️' },
+  { name: 'へりこぷたー', label: 'ヘリコプター', sound: 'ばたばたばた', em: '🚁' }, { name: 'ふね', sound: 'ぼーっ', em: '🚢' },
+  { name: 'じてんしゃ', sound: 'ちりんちりん', em: '🚲' }, { name: 'とらくたー', label: 'トラクター', sound: 'どどどど', em: '🚜' },
+];
+// sound には「くだもの／やさい」を入れて、さわったときの ふきだしにも つかう
+const FOODS = [
+  { name: 'りんご', sound: 'くだもの', em: '🍎' }, { name: 'みかん', sound: 'くだもの', em: '🍊' }, { name: 'ばなな', sound: 'くだもの', em: '🍌' },
+  { name: 'ぶどう', sound: 'くだもの', em: '🍇' }, { name: 'もも', sound: 'くだもの', em: '🍑' }, { name: 'さくらんぼ', sound: 'くだもの', em: '🍒' },
+  { name: 'なし', sound: 'くだもの', em: '🍐' }, { name: 'れもん', sound: 'くだもの', em: '🍋' },
+  { name: 'にんじん', sound: 'やさい', em: '🥕' }, { name: 'なす', sound: 'やさい', em: '🍆' }, { name: 'とうもろこし', sound: 'やさい', em: '🌽' },
+  { name: 'ぶろっこりー', label: 'ブロッコリー', sound: 'やさい', em: '🥦' }, { name: 'きゅうり', sound: 'やさい', em: '🥒' },
+  { name: 'じゃがいも', sound: 'やさい', em: '🥔' }, { name: 'たまねぎ', sound: 'やさい', em: '🧅' }, { name: 'ぴーまん', label: 'ピーマン', sound: 'やさい', em: '🫑' },
+];
+const SHADOWS = [
+  { name: 'ぞう', em: '🐘' }, { name: 'きりん', em: '🦒' }, { name: 'うさぎ', em: '🐇' }, { name: 'ねこ', em: '🐈' },
+  { name: 'にわとり', em: '🐓' }, { name: 'かに', em: '🦀' }, { name: 'かめ', em: '🐢' }, { name: 'かたつむり', em: '🐌' },
+  { name: 'ちょうちょ', em: '🦋' }, { name: 'きょうりゅう', em: '🦕' }, { name: 'ひこうき', em: '✈️' }, { name: 'じてんしゃ', em: '🚲' },
+  { name: 'へりこぷたー', em: '🚁' }, { name: 'ばなな', em: '🍌' }, { name: 'かさ', em: '☂️' }, { name: 'さかな', em: '🐟' },
+];
+const BODY_PARTS = { kami: 'かみのけ', me: 'おめめ', mimi: 'おみみ', hana: 'おはな', kuchi: 'おくち', kao: 'おかお', onaka: 'おなか', te: 'おてて', ashi: 'あし' };
+const STAMPS = ['⭐', '🌸', '🐶', '🐱', '🍎', '🚗', '❤️', '🦋'];
 function starPts() { const p = []; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? 19 : 46; p.push((50 + r * Math.cos(a)).toFixed(1) + ',' + (53 + r * Math.sin(a)).toFixed(1)); } return p.join(' '); }
 const SHAPES = [
   { name: 'まる', svg: '<circle cx="50" cy="50" r="42"/>' },
@@ -298,6 +365,13 @@ const TILE_PIC = {
   katachi: '<svg viewBox="0 0 100 100"><circle cx="28" cy="30" r="18" fill="#FFD43B"/><polygon points="72,10 92,46 52,46" fill="#fff"/><rect x="14" y="58" width="32" height="32" rx="3" fill="#FFA8A8"/><polygon points="72,56 90,74 72,92 54,74" fill="#B2F2BB"/></svg>',
   hiragana: '<svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="18" fill="#fff"/><text x="50" y="72" text-anchor="middle" font-family="Mochiy Pop One, sans-serif" font-size="56" fill="#7A4FC4">あ</text></svg>',
   oto: '<svg viewBox="0 0 100 100"><g fill="#fff"><rect x="8" y="30" width="18" height="60" rx="4"/><rect x="29" y="30" width="18" height="60" rx="4"/><rect x="50" y="30" width="18" height="60" rx="4"/><rect x="71" y="30" width="18" height="60" rx="4"/></g><g fill="#5C1B3D"><rect x="21" y="30" width="12" height="34" rx="3"/><rect x="42" y="30" width="12" height="34" rx="3"/><rect x="63" y="30" width="12" height="34" rx="3"/></g><path d="M70 6v18a6 6 0 1 1-4-5.6V6h14v6H70Z" fill="#FFE8A3"/></svg>',
+  norimono: '<svg viewBox="0 0 100 100"><path d="M12 62V48l10-18h40l14 18h12v14Z" fill="#fff"/><path d="M28 34h14v14H24Zm20 0h12l10 14H48Z" fill="#9FD3F0"/><circle cx="30" cy="66" r="11" fill="#1B3A4B"/><circle cx="72" cy="66" r="11" fill="#1B3A4B"/><circle cx="30" cy="66" r="4" fill="#fff"/><circle cx="72" cy="66" r="4" fill="#fff"/><path d="M8 84h84" stroke="#9FD3F0" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 8"/></svg>',
+  tabemono: '<svg viewBox="0 0 100 100"><path d="M50 30c-20-10-38 4-36 26 2 24 20 38 36 30 16 8 34-6 36-30 2-22-16-36-36-26Z" fill="#FF6B6B"/><path d="M50 30c0-10 4-18 10-22" stroke="#6B3E1F" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M54 22c10-8 22-6 26 0-8 8-20 8-26 0Z" fill="#8CE99A"/><ellipse cx="34" cy="48" rx="6" ry="10" fill="#fff" opacity=".5"/></svg>',
+  kage: '<svg viewBox="0 0 100 100"><rect x="8" y="8" width="84" height="84" rx="18" fill="#FFF4D6"/><path d="M30 76c-4-20 2-34 10-40l-4-14 12 9c4-1 8-1 12 0l12-9-4 14c8 6 14 20 10 40Z" fill="#1E2433"/><text x="50" y="68" text-anchor="middle" font-family="Mochiy Pop One, sans-serif" font-size="22" fill="#FFF4D6">?</text></svg>',
+  kuraberu: '<svg viewBox="0 0 100 100"><circle cx="34" cy="56" r="26" fill="#fff"/><circle cx="78" cy="70" r="12" fill="#FFE08A"/><path d="M10 90h80" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>',
+  karada: '<svg viewBox="0 0 100 100"><circle cx="50" cy="48" r="32" fill="#F7D0AE"/><path d="M18 44q2-30 32-30t32 30q-10-16-32-16T18 44Z" fill="#5A3A22"/><circle cx="40" cy="48" r="4" fill="#2B2B2B"/><circle cx="60" cy="48" r="4" fill="#2B2B2B"/><path d="M42 60q8 8 16 0" stroke="#C0392B" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="18" cy="52" r="6" fill="#F7D0AE"/><circle cx="82" cy="52" r="6" fill="#F7D0AE"/></svg>',
+  pair: '<svg viewBox="0 0 100 100"><rect x="10" y="20" width="36" height="50" rx="8" fill="#fff" transform="rotate(-8 28 45)"/><rect x="54" y="26" width="36" height="50" rx="8" fill="#fff" transform="rotate(8 72 51)"/><circle cx="28" cy="44" r="9" fill="#FF8787"/><circle cx="72" cy="50" r="9" fill="#FF8787"/></svg>',
+  oekaki: '<svg viewBox="0 0 100 100"><path d="M12 70c14-30 26 10 40-14s22-2 34-22" stroke="#FFE08A" stroke-width="8" fill="none" stroke-linecap="round"/><path d="m60 84 22-40 10 6-22 40-12 6Z" fill="#fff"/><path d="m82 44 4-8 10 6-4 8Z" fill="#FF8787"/></svg>',
 };
 
 /* ---------- クイズの しくみ ---------- */
@@ -326,6 +400,7 @@ function quiz(el, o) {
     const c = cur.choices[+b.dataset.i];
     if (o.eq ? o.eq(c, cur.target) : c === cur.target) {
       locked = true; b.classList.add('right'); chime(); burst(b); addStar(); say(pick(PRAISE));
+      if (o.onRight) o.onRight(el, cur.target);
       setTimeout(() => { if (el.isConnected) next(); }, 1700);
     } else {
       b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); boop();
@@ -378,25 +453,8 @@ const PAGES = {
   doubutsu: {
     title: 'どうぶつ', sub: 'なきごえ', color: 'var(--c-doubutsu)',
     modes: {
-      'さわる': el => {
-        el.innerHTML = `<div class="board">${ANIMALS.map((a, i) => `<button class="card" type="button" data-i="${i}"><div class="em">${a.em}</div><div class="lbl">${a.label || a.name}</div></button>`).join('')}</div>`;
-        $('.board', el).onclick = e => {
-          const b = e.target.closest('.card'); if (!b) return; const a = ANIMALS[+b.dataset.i];
-          boing(b); say(`${a.name}。 ${a.sound}`);
-          b.querySelector('.bubble')?.remove();
-          const bb = document.createElement('span'); bb.className = 'bubble'; bb.textContent = a.sound + '！'; b.appendChild(bb); setTimeout(() => bb.remove(), 1500);
-        };
-      },
-      'クイズ': el => {
-        const base = roundFrom(ANIMALS);
-        quiz(el, {
-          makeRound: () => { const r = base(); r.target = { ...r.target, bySound: Math.random() < .5, ref: r.target }; r.choices = r.choices.map(c => c === r.target.ref ? r.target : c); return r; },
-          prompt: t => t.bySound ? `<em>「${t.sound}」</em> って なくのは だれ？` : `<em>${t.label || t.name}</em> は どれ？`,
-          speak: t => t.bySound ? `${t.sound}って なくのは だれ？` : `${t.name}は どれ？`,
-          choice: c => `<span class="em">${c.em}</span>`,
-          name: c => c.name, eq: (a, b) => a.name === b.name,
-        });
-      },
+      'さわる': el => soundBoard(el, ANIMALS),
+      'クイズ': el => soundQuiz(el, ANIMALS, 'なくのは だれ'),
     },
   },
   katachi: {
@@ -451,9 +509,91 @@ const PAGES = {
       'きらきらぼし': el => pianoMode(el, true),
     },
   },
+  norimono: {
+    title: 'のりもの', sub: 'ぶーぶー・ぴーぽー', color: 'var(--c-norimono)',
+    modes: {
+      'さわる': el => soundBoard(el, VEHICLES),
+      'クイズ': el => soundQuiz(el, VEHICLES, 'はしるのは どれ'),
+    },
+  },
+  tabemono: {
+    title: 'たべもの', sub: 'くだもの・やさい', color: 'var(--c-tabemono)',
+    modes: {
+      'さわる': el => soundBoard(el, FOODS),
+      'クイズ': el => quiz(el, {
+        makeRound: roundFrom(FOODS),
+        prompt: t => `<em>${t.label || t.name}</em> は どれ？`,
+        speak: t => `${t.name}は どれ？`,
+        choice: c => `<span class="em">${c.em}</span>`,
+        name: c => c.name,
+      }),
+      'なかまわけ': el => quiz(el, {
+        makeRound: () => {
+          const kind = pick(['くだもの', 'やさい']), t = pick(FOODS.filter(f => f.sound === kind));
+          return { target: t, choices: shuffle([t, ...shuffle(FOODS.filter(f => f.sound !== kind)).slice(0, 2)]) };
+        },
+        prompt: t => `<em>${t.sound}</em> は どれ？`,
+        speak: t => `${t.sound}は どれ？`,
+        choice: c => `<span class="em">${c.em}</span>`,
+        name: c => `${c.name}。 ${c.name}は ${c.sound}`,
+      }),
+    },
+  },
+  kage: {
+    title: 'かげあて', sub: 'だれの かげ？', color: 'var(--c-kage)',
+    modes: {
+      'クイズ': el => quiz(el, {
+        makeRound: roundFrom(SHADOWS),
+        prompt: t => `<div class="kage"><span class="em">${t.em}</span></div><div style="margin-top:10px">これは だれの かげ かな？</div>`,
+        speak: () => 'これは だれの かげ かな？',
+        choice: c => `<span class="em">${c.em}</span>`,
+        name: c => c.name,
+        onRight: (el, t) => { $('.kage', el).classList.add('show'); say(`ぴんぽーん！ ${t.name}でした`); },
+      }),
+      'かげあそび': el => {
+        el.innerHTML = `<div class="board">${SHADOWS.map((s, i) => `<button class="card kage" type="button" data-i="${i}"><span class="em">${s.em}</span></button>`).join('')}</div>`;
+        $('.board', el).onclick = e => {
+          const b = e.target.closest('.card'); if (!b) return;
+          boing(b); b.classList.toggle('show');
+          if (b.classList.contains('show')) say(SHADOWS[+b.dataset.i].name);
+        };
+      },
+    },
+  },
+  kuraberu: {
+    title: 'くらべっこ', sub: 'おおきい・ちいさい', color: 'var(--c-kuraberu)',
+    modes: {
+      'クイズ': el => quiz(el, {
+        makeRound: compareRound,
+        prompt: t => `<em>${t.ask}</em> のは どっち？`,
+        speak: t => `${t.ask}のは どっち？`,
+        choice: c => c.html,
+        name: c => c.word,
+      }),
+    },
+  },
+  karada: {
+    title: 'からだ', sub: 'おめめ・おはな', color: 'var(--c-karada)',
+    modes: {
+      'さわる': el => bodyMode(el, false),
+      'クイズ': el => bodyMode(el, true),
+    },
+  },
+  pair: {
+    title: 'ペアさがし', sub: 'おなじ えを みつけよう', color: 'var(--c-pair)',
+    modes: { 'あそぶ': el => pairMode(el) },
+    extra: () => `<div class="sub">カード：${[2, 3, 4].map(n => `<button class="chip" type="button" data-pairs="${n}" aria-pressed="${state.pairs === n}">${n * 2}まい</button>`).join('')}</div>`,
+  },
+  oekaki: {
+    title: 'おえかき', sub: 'ペン・スタンプ', color: 'var(--c-oekaki)',
+    modes: {
+      'ペン': el => drawMode(el, false),
+      'スタンプ': el => drawMode(el, true),
+    },
+  },
 };
-const ORDER = ['iro', 'kazu', 'doubutsu', 'katachi', 'hiragana', 'oto'];
-const state = { range: store.get('range', 5), mode: {} };
+const ORDER = ['iro', 'kazu', 'katachi', 'hiragana', 'doubutsu', 'norimono', 'tabemono', 'kage', 'kuraberu', 'karada', 'pair', 'oto', 'oekaki'];
+const state = { range: store.get('range', 5), pairs: store.get('pairs', 3), mode: {}, paint: null };
 
 function countMode(el) {
   const n = 1 + Math.floor(Math.random() * state.range);
@@ -510,6 +650,169 @@ function pianoMode(el, guided) {
   paint();
 }
 
+/* なきごえ・おとの ある ずかん（どうぶつ・のりもの・たべもの） */
+function soundBoard(el, list) {
+  el.innerHTML = `<div class="board">${list.map((a, i) => `<button class="card" type="button" data-i="${i}"><div class="em">${a.em}</div><div class="lbl">${a.label || a.name}</div></button>`).join('')}</div>`;
+  $('.board', el).onclick = e => {
+    const b = e.target.closest('.card'); if (!b) return; const a = list[+b.dataset.i];
+    boing(b); say(`${a.name}。 ${a.sound}`);
+    b.querySelector('.bubble')?.remove();
+    const bb = document.createElement('span'); bb.className = 'bubble'; bb.textContent = a.sound + '！'; b.appendChild(bb); setTimeout(() => bb.remove(), 1500);
+  };
+}
+function soundQuiz(el, list, verb) {
+  const base = roundFrom(list);
+  quiz(el, {
+    makeRound: () => { const r = base(); r.target = { ...r.target, bySound: Math.random() < .5, ref: r.target }; r.choices = r.choices.map(c => c === r.target.ref ? r.target : c); return r; },
+    prompt: t => t.bySound ? `<em>「${t.sound}」</em> って ${verb}？` : `<em>${t.label || t.name}</em> は どれ？`,
+    speak: t => t.bySound ? `${t.sound}って ${verb}？` : `${t.name}は どれ？`,
+    choice: c => `<span class="em">${c.em}</span>`,
+    name: c => c.name, eq: (a, b) => a.name === b.name,
+  });
+}
+
+/* くらべっこ: 2つの うち どちらかを えらぶ */
+function compareRound() {
+  const kind = pick(['size', 'long', 'many', 'tall']), first = Math.random() < .5;
+  const col = pick(COLORS).hex, em = pick(['🍎', '🐶', '🚗', '⭐', '🐘', '🍓']);
+  const K = {
+    size: { ask: ['おおきい', 'ちいさい'], make: a => `<span class="em" style="font-size:${a ? 'clamp(80px,22vw,120px)' : '40px'}">${em}</span>` },
+    long: { ask: ['ながい', 'みじかい'], make: a => `<div class="cmp"><div class="rope" style="width:${a ? 92 : 38}%;background:${col}"></div></div>` },
+    many: { ask: ['おおい', 'すくない'], make: a => `<div class="plate">${Array(a ? 5 : 2).fill(`<span>${em}</span>`).join('')}</div>` },
+    tall: { ask: ['たかい', 'ひくい'], make: a => `<div class="cmp"><div class="tower">${Array(a ? 5 : 2).fill(`<i style="background:${col}"></i>`).join('')}</div></div>` },
+  }[kind];
+  const ask = K.ask[first ? 0 : 1];
+  const a = { word: K.ask[0] + ' ほう', html: K.make(true) }, b = { word: K.ask[1] + ' ほう', html: K.make(false) };
+  const target = first ? a : b;
+  target.ask = ask;
+  return { target, choices: shuffle([a, b]) };
+}
+
+/* からだ */
+const BODY_SVG = `<svg class="body-svg" viewBox="0 0 300 440" role="img" aria-label="こどもの からだ">
+  <g data-part="ashi"><rect x="112" y="318" width="30" height="82" rx="12" fill="#F3C29B"/><rect x="158" y="318" width="30" height="82" rx="12" fill="#F3C29B"/>
+    <ellipse cx="122" cy="404" rx="28" ry="15" fill="#E5404A"/><ellipse cx="178" cy="404" rx="28" ry="15" fill="#E5404A"/></g>
+  <g data-part="te"><path d="M104 218 62 282M196 218l42 64" stroke="#3F8EE0" stroke-width="28" stroke-linecap="round"/><circle cx="58" cy="292" r="20" fill="#F3C29B"/><circle cx="242" cy="292" r="20" fill="#F3C29B"/></g>
+  <g data-part="onaka"><path d="M98 202q52-18 104 0l10 128q-62 18-124 0Z" fill="#4DABF7"/><path d="m150 250 7 14 15 2-11 10 3 15-14-7-14 7 3-15-11-10 15-2Z" fill="#FFE066"/></g>
+  <g data-part="mimi"><circle cx="72" cy="128" r="18" fill="#F3C29B"/><circle cx="228" cy="128" r="18" fill="#F3C29B"/><circle cx="66" cy="128" r="28" fill="transparent"/><circle cx="234" cy="128" r="28" fill="transparent"/></g>
+  <g data-part="kao"><circle cx="150" cy="122" r="78" fill="#F7D0AE"/><circle cx="106" cy="150" r="12" fill="#F59FA0" opacity=".6"/><circle cx="194" cy="150" r="12" fill="#F59FA0" opacity=".6"/></g>
+  <g data-part="kami"><path d="M72 118q2-78 78-80 76 2 78 80-20-44-78-46-30 0-46 18-2-12 4-22-24 18-36 50Z" fill="#5A3A22"/></g>
+  <g data-part="me"><rect x="100" y="98" width="100" height="40" fill="transparent"/><ellipse cx="122" cy="118" rx="9" ry="12" fill="#2B2B2B"/><ellipse cx="178" cy="118" rx="9" ry="12" fill="#2B2B2B"/><circle cx="125" cy="113" r="3" fill="#fff"/><circle cx="181" cy="113" r="3" fill="#fff"/></g>
+  <g data-part="hana"><circle cx="150" cy="144" r="16" fill="transparent"/><ellipse cx="150" cy="143" rx="7" ry="6" fill="#E8957A"/></g>
+  <g data-part="kuchi"><rect x="120" y="156" width="60" height="32" fill="transparent"/><path d="M130 166q20 20 40 0" stroke="#C0392B" stroke-width="5" fill="none" stroke-linecap="round"/></g>
+</svg>`;
+function bodyMode(el, isQuiz) {
+  el.innerHTML = `${isQuiz ? `<div class="prompt"><div class="prompt-text"></div><button class="again" type="button" aria-label="もういちど きく">${ICON.speaker}</button></div>` : '<p class="hint">からだを タッチしてね</p>'}
+    <div class="body-wrap">${BODY_SVG}<div class="partname" aria-live="polite"></div></div>`;
+  const svg = $('.body-svg', el), nameEl = $('.partname', el);
+  const keys = Object.keys(BODY_PARTS).filter(k => k !== 'kao');
+  let target = null, last = null, locked = false;
+  const light = g => { svg.querySelectorAll('.lit').forEach(x => x.classList.remove('lit')); g.classList.add('lit'); boing(g); };
+  function next() {
+    do { target = pick(keys); } while (target === last); last = target; locked = false;
+    svg.querySelectorAll('.lit').forEach(x => x.classList.remove('lit')); nameEl.textContent = '';
+    $('.prompt-text', el).innerHTML = `<em>${BODY_PARTS[target]}</em> は どこ？`;
+    say(`${BODY_PARTS[target]}は どこ？`);
+  }
+  if (isQuiz) { $('.again', el).onclick = () => say(`${BODY_PARTS[target]}は どこ？`); next(); }
+  svg.addEventListener('click', e => {
+    const g = e.target.closest('[data-part]'); if (!g || locked) return;
+    const p = g.dataset.part, name = BODY_PARTS[p];
+    light(g); nameEl.textContent = name;
+    if (!isQuiz) { tone(523 + Object.keys(BODY_PARTS).indexOf(p) * 40, .25, 'sine', .15); say(name); return; }
+    if (p === target) {
+      locked = true; chime(); burst(g); addStar(); say(`${pick(PRAISE)} ${name}`);
+      setTimeout(() => { if (el.isConnected) next(); }, 1700);
+    } else { boop(); say(`そこは ${name}。 ${BODY_PARTS[target]}は どこ？`); }
+  });
+}
+
+/* ペアさがし */
+function pairMode(el) {
+  const n = state.pairs, faces = shuffle(ANIMALS).slice(0, n), cards = shuffle([...faces, ...faces]);
+  let open = [], done = 0, locked = false;
+  el.innerHTML = `<div class="pairs" style="--cols:${n === 2 ? 2 : n === 3 ? 3 : 4}">${cards.map((c, i) => `<button class="pc" type="button" data-i="${i}" aria-label="カード"><span class="face">${c.em}</span></button>`).join('')}</div><div class="result"><p class="hint">おなじ えを 2まい さがそう</p></div>`;
+  say('おなじ えを さがそう');
+  $('.pairs', el).onclick = e => {
+    const b = e.target.closest('.pc'); if (!b || locked || b.classList.contains('open') || b.classList.contains('done')) return;
+    b.classList.add('open'); tone(660, .12, 'sine', .12); open.push(b);
+    if (open.length < 2) return;
+    const [x, y] = open; open = [];
+    if (cards[+x.dataset.i] === cards[+y.dataset.i]) {
+      const c = cards[+x.dataset.i];
+      x.classList.replace('open', 'done'); y.classList.replace('open', 'done'); done++;
+      chime(); say(`${c.name}！ おなじだね`);
+      if (done === n) setTimeout(() => {
+        if (!el.isConnected) return;
+        addStar(); burst($('.pairs', el)); say(`ぜんぶ みつけたね！ ${pick(PRAISE)}`);
+        $('.result', el).innerHTML = '<button class="next" type="button">もういっかい</button>';
+        $('.next', el).onclick = () => pairMode(el);
+      }, 700);
+    } else {
+      locked = true;
+      setTimeout(() => { x.classList.remove('open'); y.classList.remove('open'); locked = false; }, 1000);
+    }
+  };
+}
+
+/* おえかき */
+function drawMode(el, stampMode) {
+  const pens = [...COLORS.map(c => c.hex), '#2B2B2B'];
+  const st = state.draw || (state.draw = { color: pens[0], size: 14, stamp: STAMPS[0] });
+  el.innerHTML = `<div class="palette">${stampMode
+      ? STAMPS.map(s => `<button class="stampbtn" type="button" data-stamp="${s}" aria-pressed="${st.stamp === s}">${s}</button>`).join('')
+      : pens.map(c => `<button class="sw" type="button" data-color="${c}" style="background:${c}" aria-pressed="${st.color === c}" aria-label="いろ"></button>`).join('')
+        + [8, 22].map(s => `<button class="chip" type="button" data-size="${s}" aria-pressed="${st.size === s}">${s < 10 ? 'ほそい' : 'ふとい'}</button>`).join('')}
+    <button class="chip" type="button" id="clear">ぜんぶ けす</button></div>
+    <div class="canvas-wrap"><canvas aria-label="おえかき"></canvas></div>`;
+  const cv = $('canvas', el), wrap = $('.canvas-wrap', el), ctx = cv.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const fit = () => {
+    cv.width = wrap.clientWidth * dpr; cv.height = wrap.clientHeight * dpr;
+    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height);
+    if (state.paint) { const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0, cv.width, cv.height); img.src = state.paint; }
+  };
+  fit();
+  const save = () => { try { state.paint = cv.toDataURL('image/png'); } catch (e) {} };
+  const pos = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * dpr, (e.clientY - r.top) * dpr]; };
+  let last = null;
+  cv.addEventListener('pointerdown', e => {
+    e.preventDefault(); actx();
+    const [x, y] = pos(e);
+    if (stampMode) {
+      ctx.save(); ctx.translate(x, y); ctx.rotate((Math.random() - .5) * .5);
+      ctx.font = `${64 * dpr}px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(st.stamp, 0, 0); ctx.restore();
+      tone(500 + Math.random() * 400, .15, 'sine', .12); save(); return;
+    }
+    cv.setPointerCapture(e.pointerId); last = [x, y];
+    ctx.fillStyle = st.color; ctx.beginPath(); ctx.arc(x, y, st.size * dpr / 2, 0, Math.PI * 2); ctx.fill();
+  });
+  cv.addEventListener('pointermove', e => {
+    if (!last) return;
+    const [x, y] = pos(e);
+    ctx.strokeStyle = st.color; ctx.lineWidth = st.size * dpr; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.beginPath(); ctx.moveTo(...last); ctx.lineTo(x, y); ctx.stroke(); last = [x, y];
+  });
+  const end = () => { if (last) { last = null; save(); } };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  let armed = 0;
+  $('.palette', el).onclick = e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.id === 'clear') {
+      if (!armed) { b.textContent = 'ほんとに けす？'; armed = setTimeout(() => { armed = 0; b.textContent = 'ぜんぶ けす'; }, 3000); return; }
+      clearTimeout(armed); armed = 0; b.textContent = 'ぜんぶ けす';
+      state.paint = null; ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height); say('きれいに なったよ'); return;
+    }
+    if (b.dataset.color) st.color = b.dataset.color;
+    if (b.dataset.size) st.size = +b.dataset.size;
+    if (b.dataset.stamp) st.stamp = b.dataset.stamp;
+    const attr = b.dataset.color ? 'data-color' : b.dataset.size ? 'data-size' : 'data-stamp';
+    el.querySelectorAll(`[${attr}]`).forEach(x => x.setAttribute('aria-pressed', x === b));
+    boing(b);
+  };
+}
+
 /* ---------- がめん ---------- */
 const app = $('#app');
 function topBar(inner) {
@@ -544,6 +847,7 @@ function renderPage(id) {
   p.modes[mode](stage);
   app.querySelectorAll('.mode').forEach(b => b.onclick = () => { state.mode[id] = b.dataset.m; actx(); renderPage(id); });
   app.querySelectorAll('[data-range]').forEach(b => b.onclick = () => { state.range = +b.dataset.range; store.set('range', state.range); renderPage(id); });
+  app.querySelectorAll('[data-pairs]').forEach(b => b.onclick = () => { state.pairs = +b.dataset.pairs; store.set('pairs', state.pairs); renderPage(id); });
 }
 function route() {
   try { speechSynthesis.cancel(); } catch (e) {}
