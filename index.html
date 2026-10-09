@@ -48,7 +48,7 @@ button:focus-visible,a:focus-visible{outline:4px solid var(--c-katachi);outline-
 
 /* ヘッダー */
 .top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.top h1{font-family:var(--display);font-weight:400;margin:0;font-size:clamp(26px,6vw,40px);line-height:1.15;text-wrap:balance;flex:1;min-width:0}
+.top h1{font-family:var(--display);font-weight:400;margin:0;font-size:clamp(26px,6vw,40px);line-height:1.15;text-wrap:balance;flex:1 0 auto;white-space:nowrap}
 .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);background:var(--paper);
   border:3px solid var(--line);border-radius:999px;padding:8px 16px 8px 12px;box-shadow:var(--shadow);font-size:17px}
 .back svg{width:26px;height:26px}
@@ -57,7 +57,8 @@ button:focus-visible,a:focus-visible{outline:4px solid var(--c-katachi);outline-
 .pill .st{color:var(--star);font-size:20px}
 .pill.btn[aria-pressed="false"]{color:var(--muted)}
 .pill svg{width:22px;height:22px}
-.pill{font-variant-numeric:tabular-nums}
+.pill{font-variant-numeric:tabular-nums;text-decoration:none;color:var(--ink)}
+.agepill{color:#fff}
 
 /* ホーム */
 .hello{display:flex;flex-direction:column;gap:6px}
@@ -158,6 +159,33 @@ button:focus-visible,a:focus-visible{outline:4px solid var(--c-katachi);outline-
 /* ほし */
 .spark{position:fixed;pointer-events:none;font-size:28px;z-index:10;animation:spark .9s ease-out forwards}
 @keyframes spark{from{transform:translate(-50%,-50%) scale(.4);opacity:1}to{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.1);opacity:0}}
+
+/* モード（ふつう・きょうりゅう・プリンセス）: いろと はいけいの もようを かえる */
+:root[data-mode="dino"]{--bg:#E4F1D6;--soft:#D3E8C2;--line:#C2DAAE}
+:root[data-mode="princess"]{--bg:#FCE9F3;--soft:#F7D6E7;--line:#EDC3DA}
+@media (prefers-color-scheme: dark){
+  :root[data-mode="dino"]:not([data-theme="light"]){--bg:#122019;--soft:#1E3327;--line:#2C4A37}
+  :root[data-mode="princess"]:not([data-theme="light"]){--bg:#22152A;--soft:#33213D;--line:#4A3356}
+}
+:root[data-theme="dark"][data-mode="dino"]{--bg:#122019;--soft:#1E3327;--line:#2C4A37}
+:root[data-theme="dark"][data-mode="princess"]{--bg:#22152A;--soft:#33213D;--line:#4A3356}
+:root[data-mode="dino"] body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='rgba(70,130,50,.13)'%3E%3Cellipse cx='30' cy='40' rx='9' ry='12'/%3E%3Ccircle cx='20' cy='24' r='4'/%3E%3Ccircle cx='30' cy='21' r='4'/%3E%3Ccircle cx='40' cy='24' r='4'/%3E%3Cellipse cx='86' cy='96' rx='9' ry='12'/%3E%3Ccircle cx='76' cy='80' r='4'/%3E%3Ccircle cx='86' cy='77' r='4'/%3E%3Ccircle cx='96' cy='80' r='4'/%3E%3C/g%3E%3C/svg%3E")}
+:root[data-mode="princess"] body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='110'%3E%3Cg fill='rgba(220,80,150,.14)'%3E%3Cpath d='M26 14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M82 66c-6-8-18-2-12 8l12 12 12-12c6-10-6-16-12-8z'/%3E%3Ccircle cx='86' cy='22' r='3'/%3E%3Ccircle cx='22' cy='86' r='3'/%3E%3C/g%3E%3C/svg%3E")}
+.modesel{display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:var(--paper);border-radius:24px;padding:12px 14px;box-shadow:var(--shadow)}
+.modesel .ml{font-size:14px;color:var(--muted)}
+.mbtn{display:inline-flex;align-items:center;gap:8px;border:3px solid var(--line);background:var(--paper);border-radius:999px;padding:4px 16px 4px 4px;font-size:16px}
+.mbtn .mi{width:40px;height:40px;border-radius:50%;background:var(--soft);display:grid;place-items:center;overflow:hidden}
+.mbtn .mi svg{width:40px;height:40px}
+.mbtn .mi b{color:#F5B400;font-size:22px}
+.mbtn[aria-pressed="true"]{border-color:var(--ink);background:var(--soft)}
+.greet{flex-basis:100%;margin:0;display:flex;align-items:center;gap:12px;font-size:17px;line-height:1.5}
+.greet svg{width:64px;height:64px;flex:none}
+.mascot{position:relative;width:54px;height:54px;border:none;background:var(--paper);border-radius:50%;padding:2px;box-shadow:var(--shadow);flex:none}
+.mascot svg{width:100%;height:100%}
+.mbubble{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);border-radius:14px;padding:5px 12px;font-size:15px;white-space:nowrap;z-index:5;pointer-events:none}
+.mbubble::before{content:"";position:absolute;top:-6px;left:50%;margin-left:-6px;border:6px solid transparent;border-top:0;border-bottom-color:var(--ink)}
+.deco{display:none}
+:root[data-mode="dino"] .deco-dino,:root[data-mode="princess"] .deco-princess{display:inline}
 
 /* きろく */
 .recbox{background:var(--paper);border-radius:22px;padding:16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;min-width:0}
@@ -285,7 +313,19 @@ function tone(f, dur = .5, type = 'triangle', vol = .25, when = 0) {
   g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .012); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
   o.connect(g); g.connect(a.destination); o.start(t); o.stop(t + dur + .05);
 }
-const chime = () => { tone(784, .25, 'sine', .2); tone(1047, .45, 'sine', .2, .12); tone(1319, .5, 'sine', .14, .24); };
+const chime = () => {
+  const m = curMode();
+  if (m === 'dino') { sweep(300, 110, .45, 'sawtooth', .1); tone(392, .18, 'square', .07, .32); tone(523, .4, 'square', .07, .44); return; }
+  if (m === 'princess') { [1047, 1319, 1568, 2093].forEach((f, i) => tone(f, .35, 'sine', .13, i * .07)); tone(2637, .7, 'sine', .05, .3); return; }
+  tone(784, .25, 'sine', .2); tone(1047, .45, 'sine', .2, .12); tone(1319, .5, 'sine', .14, .24);
+};
+function sweep(f1, f2, dur, type, vol) {
+  if (!soundOn) return; const a = actx(); if (!a) return;
+  const t = a.currentTime, o = a.createOscillator(), g = a.createGain();
+  o.type = type; o.frequency.setValueAtTime(f1, t); o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+  g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .03); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  o.connect(g); g.connect(a.destination); o.start(t); o.stop(t + dur + .05);
+}
 const boop = () => tone(196, .3, 'sine', .18);
 let jaVoice = null;
 function loadVoices() { try { const vs = speechSynthesis.getVoices(); jaVoice = vs.find(v => /ja/i.test(v.lang)) || null; } catch (e) {} }
@@ -301,18 +341,72 @@ function say(text) {
 }
 const PRAISE = ['すごいね！', 'せいかい！', 'やったね！', 'じょうず！', 'ぴんぽーん！'];
 
+/* ---------- モード（ふつう・きょうりゅう・プリンセス）。なまえごとに rec.theme に のこす ---------- */
+const DINO_SVG = `<svg viewBox="0 0 100 100" aria-hidden="true"><g fill="#F59F00"><polygon points="26,30 30,12 40,24"/><polygon points="40,20 50,2 60,20"/><polygon points="60,24 70,12 74,30"/></g>
+  <ellipse cx="50" cy="86" rx="26" ry="16" fill="#3FA65C"/><ellipse cx="50" cy="88" rx="15" ry="10" fill="#CDEFC1"/><ellipse cx="29" cy="80" rx="6" ry="3.5" fill="#3FA65C"/><ellipse cx="71" cy="80" rx="6" ry="3.5" fill="#3FA65C"/>
+  <circle cx="50" cy="46" r="30" fill="#4CB86A"/><circle cx="39" cy="40" r="8" fill="#fff"/><circle cx="61" cy="40" r="8" fill="#fff"/><circle cx="40" cy="41" r="4.5" fill="#1E2940"/><circle cx="62" cy="41" r="4.5" fill="#1E2940"/>
+  <circle cx="41.5" cy="39" r="1.6" fill="#fff"/><circle cx="63.5" cy="39" r="1.6" fill="#fff"/><circle cx="30" cy="54" r="4" fill="#F59FA0" opacity=".7"/><circle cx="70" cy="54" r="4" fill="#F59FA0" opacity=".7"/>
+  <path d="M37 57q13 12 26 0" stroke="#1E2940" stroke-width="3" fill="none" stroke-linecap="round"/><polygon points="42,59.5 46,60.5 44,64.5" fill="#fff"/><polygon points="54,60.5 58,59.5 56,64.5" fill="#fff"/></svg>`;
+const PRINCESS_SVG = `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M22 52q0-38 28-38t28 38v28q-8 6-12 0V58H34v22q-4 6-12 0Z" fill="#E8A33D"/>
+  <path d="M34 72h32l13 28H21Z" fill="#F783AC"/><circle cx="33" cy="76" r="7" fill="#FCC2D7"/><circle cx="67" cy="76" r="7" fill="#FCC2D7"/>
+  <circle cx="50" cy="50" r="22" fill="#F9D7B9"/><path d="M28 48q2-24 22-24t22 24q-10-12-22-10t-22 10Z" fill="#E8A33D"/>
+  <polygon points="34,26 37,10 44,20 50,6 56,20 63,10 66,26" fill="#FFC933" stroke="#E0A100" stroke-width="1.5" stroke-linejoin="round"/><circle cx="50" cy="16" r="2.6" fill="#E64980"/><circle cx="39" cy="20" r="1.8" fill="#4DABF7"/><circle cx="61" cy="20" r="1.8" fill="#4DABF7"/>
+  <circle cx="42" cy="51" r="3.4" fill="#1E2940"/><circle cx="58" cy="51" r="3.4" fill="#1E2940"/><circle cx="43" cy="50" r="1.1" fill="#fff"/><circle cx="59" cy="50" r="1.1" fill="#fff"/>
+  <circle cx="37" cy="58" r="4" fill="#F7A1B5" opacity=".8"/><circle cx="63" cy="58" r="4" fill="#F7A1B5" opacity=".8"/><path d="M45 60q5 5 10 0" stroke="#D6336C" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>`;
+const THEMES = {
+  normal: { label: 'ふつう', star: '★' },
+  dino: { label: 'きょうりゅう', star: '🥚', svg: DINO_SVG, name: 'ガオくん',
+    greet: 'ぼく ガオくん！ いっしょに あそぼう。がおー！',
+    praise: ['がおー！ すごい！', 'やったね！ がおー！', 'ガオくんも びっくり！', 'つよい つよい！', 'せいかい だガオ！'],
+    cheer: ['がおー！', 'すごいガオ！', 'やったー！'], tap: ['がおー！', 'ぼく ティラノサウルスの こども だよ', 'おなか すいたガオ', 'しっぽ ふりふり'],
+    sparks: ['🦴', '🥚', '🌿', '🦕', '🦖'],
+    things: [['🦕', 'くびながりゅう'], ['🦖', 'てぃらの'], ['🥚', 'たまご'], ['🦴', 'ほね'], ['🌋', 'かざん'], ['🦎', 'とかげ'], ['🌿', 'はっぱ'], ['🐊', 'わに']],
+    stamps: ['🦖', '🦕', '🥚', '🦴', '🌋', '🌿', '👣', '🌴'],
+    shadows: [['🦖', 'てぃらの'], ['🦕', 'くびながりゅう'], ['🐊', 'わに'], ['🦎', 'とかげ'], ['🐢', 'かめ'], ['🐘', 'ぞう'], ['🦒', 'きりん'], ['🐓', 'にわとり'], ['🦀', 'かに'], ['🐍', 'へび']] },
+  princess: { label: 'プリンセス', star: '💎', svg: PRINCESS_SVG, name: 'ティアラちゃん',
+    greet: 'わたし ティアラ！ いっしょに キラキラ あそびましょ！',
+    praise: ['すてき！', 'キラキラ せいかい！', 'まほう みたい！', 'とっても じょうず！', 'おみごと！'],
+    cheer: ['すてき！', 'キラキラ〜！', 'やったわ！'], tap: ['ごきげんよう！', 'おしろで まってるわ', 'キラキラ だいすき！', 'ドレス かわいいでしょ'],
+    sparks: ['💎', '👑', '✨', '💖', '🎀'],
+    things: [['👑', 'かんむり'], ['💎', 'ほうせき'], ['🎀', 'りぼん'], ['🌹', 'ばら'], ['🍰', 'けーき'], ['👗', 'どれす'], ['🦄', 'ゆにこーん'], ['💍', 'ゆびわ']],
+    stamps: ['👑', '💎', '🎀', '🌹', '💖', '✨', '🦄', '🏰'],
+    shadows: [['🦄', 'ゆにこーん'], ['🦢', 'はくちょう'], ['🦋', 'ちょうちょ'], ['🐇', 'うさぎ'], ['🐈', 'ねこ'], ['🏰', 'おしろ'], ['👑', 'かんむり'], ['🌹', 'ばら'], ['👠', 'くつ'], ['☂️', 'かさ']] },
+};
+const curMode = () => (rec && THEMES[rec.theme]) ? rec.theme : 'normal';
+const T = () => THEMES[curMode()];
+const asItems = list => list.map(([em, name]) => ({ em, name }));
+const praise = () => pick(T().praise || PRAISE);
+const things = () => T().things ? asItems(T().things) : THINGS;
+const pairPool = () => T().things ? asItems(T().things) : ANIMALS;
+const stampPool = () => T().stamps || STAMPS;
+const shadowPool = () => T().shadows ? asItems(T().shadows) : SHADOWS;
+function applyTheme() { document.documentElement.dataset.mode = (rec && rec.theme) || 'normal'; }
+const mascotMini = () => T().svg ? `<button class="mascot" type="button" id="mascot" aria-label="${T().name}">${T().svg}<span class="mbubble" hidden></span></button>` : '';
+let mascotTimer = 0;
+function mascotTalk(text) {
+  const m = $('#mascot'); if (!m) return;
+  const b = m.querySelector('.mbubble'); b.textContent = text; b.hidden = false; boing(m);
+  clearTimeout(mascotTimer); mascotTimer = setTimeout(() => { b.hidden = true; }, 1800);
+}
+function mascotCheer() { if (T().cheer) mascotTalk(pick(T().cheer)); }
+function modeSelector() {
+  return `<section class="modesel"><span class="ml">モード</span>${Object.entries(THEMES).map(([k, t]) => `<button class="mbtn" type="button" data-theme-mode="${k}" aria-pressed="${curMode() === k}">
+    <span class="mi">${t.svg || '<b>★</b>'}</span>${t.label}</button>`).join('')}
+    ${T().greet ? `<p class="greet">${T().svg}<span>${T().greet}</span></p>` : ''}</section>`;
+}
+
 function burst(el) {
   const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
   const cols = ['#F5B400', '#FF6B6B', '#4DABF7', '#51CF66', '#CC5DE8'];
   for (let i = 0; i < 12; i++) {
-    const s = document.createElement('span'); s.className = 'spark'; s.textContent = '★';
+    const s = document.createElement('span'); s.className = 'spark'; s.textContent = T().sparks ? T().sparks[i % T().sparks.length] : '★';
     const ang = (i / 12) * Math.PI * 2, d = 70 + Math.random() * 60;
     s.style.left = cx + 'px'; s.style.top = cy + 'px'; s.style.color = cols[i % cols.length];
     s.style.setProperty('--dx', Math.cos(ang) * d + 'px'); s.style.setProperty('--dy', Math.sin(ang) * d + 'px');
     document.body.appendChild(s); setTimeout(() => s.remove(), 950);
   }
 }
-function addStar(kind = 'ok') { rec.stars++; track(kind); const c = $('#starCount'); if (c) c.textContent = rec.stars; }
+function addStar(kind = 'ok') { rec.stars++; track(kind); const c = $('#starCount'); if (c) c.textContent = rec.stars; mascotCheer(); }
 /* ---------- きろく（この たんまつの ブラウザに だけ のこす。なまえは おうちじゅけんドリルと きょうつう） ---------- */
 const kidsGet = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
 const kidsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
@@ -322,7 +416,7 @@ let pid = kidsGet('kids.cur', profiles[0].id);
 if (!profiles.some(p => p.id === pid)) pid = profiles[0].id;
 let rec;
 // むかしの ★（なまえを わける まえ）は さいしょの ひとに ひきつぐ
-function loadRec() { rec = kidsGet('asobi.rec.' + pid, null) || { stars: pid === 'p1' ? stars : 0, days: {}, g: {}, kana: {} }; }
+function loadRec() { rec = kidsGet('asobi.rec.' + pid, null) || { stars: pid === 'p1' ? stars : 0, days: {}, g: {}, kana: {} }; applyTheme(); }
 loadRec();
 const saveRec = () => kidsSet('asobi.rec.' + pid, rec);
 const saveProfiles = () => { kidsSet('kids.profiles', profiles); kidsSet('kids.cur', pid); };
@@ -468,7 +562,7 @@ function quiz(el, o) {
     const b = e.target.closest('.choice'); if (!b || locked) return;
     const c = cur.choices[+b.dataset.i];
     if (o.eq ? o.eq(c, cur.target) : c === cur.target) {
-      locked = true; b.classList.add('right'); chime(); burst(b); addStar(); say(pick(PRAISE));
+      locked = true; b.classList.add('right'); chime(); burst(b); addStar(); say(praise());
       if (o.onRight) o.onRight(el, cur.target);
       setTimeout(() => { if (el.isConnected) next(); }, 1700);
     } else {
@@ -507,7 +601,7 @@ const PAGES = {
           makeRound: (() => { let last = 0; return () => {
             let n; do { n = 1 + Math.floor(Math.random() * max); } while (n === last); last = n;
             const opts = shuffle([...Array(max).keys()].map(k => k + 1).filter(k => k !== n)).slice(0, cfg().n - 1);
-            return { target: { n, t: pick(THINGS) }, choices: shuffle([n, ...opts].map(k => ({ n: k }))) };
+            return { target: { n, t: pick(things()) }, choices: shuffle([n, ...opts].map(k => ({ n: k }))) };
           }; })(),
           prompt: t => `<div class="tray small">${Array(t.n).fill(`<div class="thing">${t.t.em}</div>`).join('')}</div><div style="margin-top:8px">いくつ あるかな？</div>`,
           speak: t => `${t.t.name}は いくつ あるかな？`,
@@ -612,7 +706,7 @@ const PAGES = {
     title: 'かげあて', sub: 'だれの かげ？', color: 'var(--c-kage)',
     modes: {
       'クイズ': el => quiz(el, {
-        makeRound: roundFrom(SHADOWS),
+        makeRound: roundFrom(shadowPool()),
         prompt: t => `<div class="kage"><span class="em">${t.em}</span></div><div style="margin-top:10px">これは だれの かげ かな？</div>`,
         speak: () => 'これは だれの かげ かな？',
         choice: c => `<span class="em">${c.em}</span>`,
@@ -620,11 +714,11 @@ const PAGES = {
         onRight: (el, t) => { $('.kage', el).classList.add('show'); say(`ぴんぽーん！ ${t.name}でした`); },
       }),
       'かげあそび': el => {
-        el.innerHTML = `<div class="board">${SHADOWS.map((s, i) => `<button class="card kage" type="button" data-i="${i}"><span class="em">${s.em}</span></button>`).join('')}</div>`;
+        el.innerHTML = `<div class="board">${shadowPool().map((s, i) => `<button class="card kage" type="button" data-i="${i}"><span class="em">${s.em}</span></button>`).join('')}</div>`;
         $('.board', el).onclick = e => {
           const b = e.target.closest('.card'); if (!b) return;
           boing(b); b.classList.toggle('show'); track('touch');
-          if (b.classList.contains('show')) say(SHADOWS[+b.dataset.i].name);
+          if (b.classList.contains('show')) say(shadowPool()[+b.dataset.i].name);
         };
       },
     },
@@ -698,7 +792,7 @@ const curPairs = () => cfg().pairs.includes(state.pairs) ? state.pairs : cfg().p
 
 function countMode(el) {
   const n = 1 + Math.floor(Math.random() * curRange());
-  const t = pick(THINGS);
+  const t = pick(things());
   let k = 0;
   el.innerHTML = `<div class="tray">${Array(n).fill(0).map((_, i) => `<button class="thing" type="button" aria-label="${t.name}">${t.em}</button>`).join('')}</div><div class="result"><p class="hint">${t.name}を タップして かぞえよう</p></div>`;
   say(`${t.name}を かぞえよう`);
@@ -710,7 +804,7 @@ function countMode(el) {
       setTimeout(() => {
         if (!el.isConnected) return;
         chime(); addStar('done'); burst($('.tray', el));
-        say(`ぜんぶで ${NUMW[n]}！ ${pick(PRAISE)}`);
+        say(`ぜんぶで ${NUMW[n]}！ ${praise()}`);
         $('.result', el).innerHTML = `<span class="big">${n}</span><span style="font-size:24px">ぜんぶで ${n}こ！</span><button class="next" type="button">つぎ</button>`;
         $('.next', el).onclick = () => countMode(el);
       }, 650);
@@ -798,6 +892,8 @@ const BODY_SVG = `<svg class="body-svg" viewBox="0 0 300 440" role="img" aria-la
   <g data-part="mimi"><circle cx="72" cy="128" r="18" fill="#F3C29B"/><circle cx="228" cy="128" r="18" fill="#F3C29B"/><circle cx="66" cy="128" r="28" fill="transparent"/><circle cx="234" cy="128" r="28" fill="transparent"/></g>
   <g data-part="kao"><circle cx="150" cy="122" r="78" fill="#F7D0AE"/><circle cx="106" cy="150" r="12" fill="#F59FA0" opacity=".6"/><circle cx="194" cy="150" r="12" fill="#F59FA0" opacity=".6"/></g>
   <g data-part="kami"><path d="M72 118q2-78 78-80 76 2 78 80-20-44-78-46-30 0-46 18-2-12 4-22-24 18-36 50Z" fill="#5A3A22"/></g>
+  <g class="deco deco-princess" pointer-events="none"><polygon points="112,52 120,24 134,42 150,16 166,42 180,24 188,52" fill="#FFC933" stroke="#E0A100" stroke-width="3" stroke-linejoin="round"/><circle cx="150" cy="34" r="5" fill="#E64980"/><circle cx="126" cy="40" r="3.5" fill="#4DABF7"/><circle cx="174" cy="40" r="3.5" fill="#4DABF7"/></g>
+  <g class="deco deco-dino" pointer-events="none" fill="#4CB86A" stroke="#2F8A4B" stroke-width="3" stroke-linejoin="round"><polygon points="104,62 112,30 128,50"/><polygon points="128,46 150,14 172,46"/><polygon points="172,50 188,30 196,62"/></g>
   <g data-part="me"><rect x="100" y="98" width="100" height="40" fill="transparent"/><ellipse cx="122" cy="118" rx="9" ry="12" fill="#2B2B2B"/><ellipse cx="178" cy="118" rx="9" ry="12" fill="#2B2B2B"/><circle cx="125" cy="113" r="3" fill="#fff"/><circle cx="181" cy="113" r="3" fill="#fff"/></g>
   <g data-part="hana"><circle cx="150" cy="144" r="16" fill="transparent"/><ellipse cx="150" cy="143" rx="7" ry="6" fill="#E8957A"/></g>
   <g data-part="kuchi"><rect x="120" y="156" width="60" height="32" fill="transparent"/><path d="M130 166q20 20 40 0" stroke="#C0392B" stroke-width="5" fill="none" stroke-linecap="round"/></g>
@@ -822,7 +918,7 @@ function bodyMode(el, isQuiz) {
     light(g); nameEl.textContent = name;
     if (!isQuiz) { track('touch'); tone(523 + Object.keys(BODY_PARTS).indexOf(p) * 40, .25, 'sine', .15); say(name); return; }
     if (p === target) {
-      locked = true; chime(); burst(g); addStar(); say(`${pick(PRAISE)} ${name}`);
+      locked = true; chime(); burst(g); addStar(); say(`${praise()} ${name}`);
       setTimeout(() => { if (el.isConnected) next(); }, 1700);
     } else { boop(); track('ng'); say(`そこは ${name}。 ${BODY_PARTS[target]}は どこ？`); }
   });
@@ -830,7 +926,7 @@ function bodyMode(el, isQuiz) {
 
 /* ペアさがし */
 function pairMode(el) {
-  const n = curPairs(), faces = shuffle(ANIMALS).slice(0, n), cards = shuffle([...faces, ...faces]);
+  const n = curPairs(), faces = shuffle(pairPool()).slice(0, n), cards = shuffle([...faces, ...faces]);
   let open = [], done = 0, locked = false;
   el.innerHTML = `<div class="pairs" style="--cols:${n === 2 ? 2 : n === 3 ? 3 : 4}">${cards.map((c, i) => `<button class="pc" type="button" data-i="${i}" aria-label="カード"><span class="face">${c.em}</span></button>`).join('')}</div><div class="result"><p class="hint">おなじ えを 2まい さがそう</p></div>`;
   say('おなじ えを さがそう');
@@ -845,7 +941,7 @@ function pairMode(el) {
       chime(); say(`${c.name}！ おなじだね`);
       if (done === n) setTimeout(() => {
         if (!el.isConnected) return;
-        addStar('done'); burst($('.pairs', el)); say(`ぜんぶ みつけたね！ ${pick(PRAISE)}`);
+        addStar('done'); burst($('.pairs', el)); say(`ぜんぶ みつけたね！ ${praise()}`);
         $('.result', el).innerHTML = '<button class="next" type="button">もういっかい</button>';
         $('.next', el).onclick = () => pairMode(el);
       }, 700);
@@ -859,9 +955,10 @@ function pairMode(el) {
 /* おえかき */
 function drawMode(el, stampMode) {
   const pens = [...COLORS.map(c => c.hex), '#2B2B2B'];
-  const st = state.draw || (state.draw = { color: pens[0], size: 14, stamp: STAMPS[0] });
+  const sp = stampPool(), st = state.draw || (state.draw = { color: pens[0], size: 14, stamp: sp[0] });
+  if (!sp.includes(st.stamp)) st.stamp = sp[0];
   el.innerHTML = `<div class="palette">${stampMode
-      ? STAMPS.map(s => `<button class="stampbtn" type="button" data-stamp="${s}" aria-pressed="${st.stamp === s}">${s}</button>`).join('')
+      ? sp.map(s => `<button class="stampbtn" type="button" data-stamp="${s}" aria-pressed="${st.stamp === s}">${s}</button>`).join('')
       : pens.map(c => `<button class="sw" type="button" data-color="${c}" style="background:${c}" aria-pressed="${st.color === c}" aria-label="いろ"></button>`).join('')
         + [8, 22].map(s => `<button class="chip" type="button" data-size="${s}" aria-pressed="${st.size === s}">${s < 10 ? 'ほそい' : 'ふとい'}</button>`).join('')}
     <button class="chip" type="button" id="clear">ぜんぶ けす</button></div>
@@ -917,10 +1014,12 @@ function drawMode(el, stampMode) {
 /* ---------- がめん ---------- */
 const app = $('#app');
 function topBar(inner) {
-  return `<header class="top">${inner}<span class="pill" title="あつめた ほし"><span class="st">★</span><span id="starCount">${rec.stars}</span></span>
+  return `<header class="top">${inner}${mascotMini()}<span class="pill" title="あつめた ほし"><span class="st">${T().star}</span><span id="starCount">${rec.stars}</span></span>
     <button class="pill btn" id="soundBtn" type="button" aria-pressed="${soundOn}" aria-label="おと">${soundOn ? ICON.speaker : ICON.mute}${soundOn ? 'おと あり' : 'おと なし'}</button></header>`;
 }
 function bindSound() {
+  const mc = $('#mascot');
+  if (mc) mc.onclick = () => { const l = pick(T().tap); mascotTalk(l); say(l); if (curMode() === 'dino') sweep(260, 120, .4, 'sawtooth', .08); else tone(1568, .3, 'sine', .1); };
   $('#soundBtn').onclick = e => {
     soundOn = !soundOn; store.set('sound', soundOn);
     const b = e.currentTarget; b.setAttribute('aria-pressed', soundOn); b.innerHTML = (soundOn ? ICON.speaker : ICON.mute) + (soundOn ? 'おと あり' : 'おと なし');
@@ -946,11 +1045,16 @@ function renderHome() {
     : `<button class="pill agepill" type="button" id="ageBtn" style="--ac:${c.color}">${c.label}<small>かえる</small></button>`;
   const others = L ? `<br>ほかの年齢：${[2, 3, 4].filter(a => a !== age).map(a => `<a href="${L[a]}" style="color:var(--c-katachi)">${AGES[a].label}むけ</a>`).join('・')}` : '';
   app.innerHTML = topBar(`<h1>あそんでまなぼ</h1>${agePill}${recPill()}`) + `
-    <div class="hello"><p>${c.lead}せいかいすると ★が たまります。</p></div>
+    <div class="hello"><p>${c.lead}せいかいすると ${T().star}が たまります。</p></div>
+    ${modeSelector()}
     <nav class="tiles">${c.pages.map(id => { const p = PAGES[id]; return `<a class="tile" href="#${id}" style="background:${p.color}"><span class="pic">${TILE_PIC[id]}</span><b>${p.title}</b><small>${p.sub}</small></a>`; }).join('')}</nav>
     <div class="note"><b>おうちの方へ（${c.label}むけ）</b>　${c.note}音声はブラウザの読み上げ機能を使うので、音が出ないときは端末のマナーモードや音量を確認してください。${age === 4 ? `<br><a href="${JUKEN_URL}" style="color:var(--c-katachi)">おうちじゅけんドリル（小学校受験のペーパー対策）へ</a>` : ''}${others}</div>`;
   bindSound();
   const ab = $('#ageBtn'); if (ab) ab.onclick = () => { choosing = true; renderHome(); };
+  app.querySelectorAll('[data-theme-mode]').forEach(b => b.onclick = () => {
+    rec.theme = b.dataset.themeMode; saveRec(); applyTheme(); actx(); renderHome(); chime();
+    if (T().greet) { say(T().greet); mascotTalk(T().cheer[0]); } else say('ふつう モード');
+  });
 }
 function renderPage(id) {
   if (curPage !== id) { curPage = id; track('open'); }
