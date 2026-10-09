@@ -159,6 +159,38 @@ button:focus-visible,a:focus-visible{outline:4px solid var(--c-katachi);outline-
 .spark{position:fixed;pointer-events:none;font-size:28px;z-index:10;animation:spark .9s ease-out forwards}
 @keyframes spark{from{transform:translate(-50%,-50%) scale(.4);opacity:1}to{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.1);opacity:0}}
 
+/* きろく */
+.recbox{background:var(--paper);border-radius:22px;padding:16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;min-width:0}
+.recbox h2{margin:0;font-family:var(--display);font-weight:400;font-size:20px}
+.small{margin:0;color:var(--muted);font-size:13px;font-weight:500;line-height:1.6}
+.profs,.btns{display:flex;flex-wrap:wrap;gap:8px}
+.chip[aria-pressed="true"]{border-color:var(--c-katachi);color:var(--c-katachi)}
+.namerow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.namerow input{font:inherit;font-size:17px;padding:8px 12px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink);min-width:0;flex:1 1 140px;max-width:240px;user-select:text;-webkit-user-select:text}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.stats div{background:var(--paper);border-radius:18px;padding:12px 8px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.stats b{font-family:var(--display);font-weight:400;font-size:clamp(24px,6vw,32px);color:var(--c-katachi);font-variant-numeric:tabular-nums}
+.stats span{font-size:12px;color:var(--muted)}
+.strip{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:4px}
+.day{display:flex;flex-direction:column;align-items:center;gap:3px}
+.day i{display:block;width:100%;aspect-ratio:1;border-radius:6px;background:var(--soft)}
+.day.l1 i{background:color-mix(in srgb,var(--c-doubutsu) 35%,var(--soft))}
+.day.l2 i{background:color-mix(in srgb,var(--c-doubutsu) 65%,var(--soft))}
+.day.l3 i{background:var(--c-doubutsu)}
+.day small{font-size:10px;color:var(--muted)}
+.tablewrap{overflow-x:auto}
+table.rec{border-collapse:collapse;width:100%;min-width:420px;font-size:14px;font-variant-numeric:tabular-nums}
+table.rec th,table.rec td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+table.rec thead th{font-size:12px;color:var(--muted);font-weight:700}
+table.rec tbody th i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+.bar{display:inline-block;width:56px;height:8px;border-radius:99px;background:var(--soft);margin-left:6px;vertical-align:middle;overflow:hidden}
+.bar b{display:block;height:100%;background:var(--c-doubutsu)}
+.gojuon.rec span{aspect-ratio:1;border-radius:12px;display:grid;place-items:center;font-family:var(--display);font-size:clamp(18px,5vw,24px);border:2px solid var(--line);color:var(--muted)}
+.gojuon.rec .k1,.key.k1{background:var(--soft);color:var(--c-hiragana);border-color:var(--c-hiragana)}
+.gojuon.rec .k2,.key.k2{background:var(--c-hiragana);color:#fff;border-color:var(--c-hiragana)}
+.key{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:7px;border:2px solid;font-family:var(--display);font-size:13px}
+@media (max-width:520px){ .stats{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
 /* ねんれい */
 .ages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .age{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;text-decoration:none;color:#fff;background:var(--ac);border:none;border-radius:28px;padding:22px 14px 20px;box-shadow:0 7px 0 rgba(0,0,0,.18)}
@@ -280,7 +312,31 @@ function burst(el) {
     document.body.appendChild(s); setTimeout(() => s.remove(), 950);
   }
 }
-function addStar() { stars++; store.set('stars', stars); const c = $('#starCount'); if (c) c.textContent = stars; }
+function addStar(kind = 'ok') { rec.stars++; track(kind); const c = $('#starCount'); if (c) c.textContent = rec.stars; }
+/* ---------- きろく（この たんまつの ブラウザに だけ のこす。なまえは おうちじゅけんドリルと きょうつう） ---------- */
+const kidsGet = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+const kidsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+let profiles = kidsGet('kids.profiles', null) || [{ id: 'p1', name: '' }];
+let pid = kidsGet('kids.cur', profiles[0].id);
+if (!profiles.some(p => p.id === pid)) pid = profiles[0].id;
+let rec;
+// むかしの ★（なまえを わける まえ）は さいしょの ひとに ひきつぐ
+function loadRec() { rec = kidsGet('asobi.rec.' + pid, null) || { stars: pid === 'p1' ? stars : 0, days: {}, g: {}, kana: {} }; }
+loadRec();
+const saveRec = () => kidsSet('asobi.rec.' + pid, rec);
+const saveProfiles = () => { kidsSet('kids.profiles', profiles); kidsSet('kids.cur', pid); };
+const profName = p => p.name || 'なまえ なし';
+const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+let curPage = null;
+// kind: open（ひらいた）/ touch（さわった）/ ok・ng（クイズの せいかい・まちがい）/ done（さいごまで できた）
+function track(kind) {
+  const d = dayKey(); rec.days[d] = (rec.days[d] || 0) + 1;
+  if (curPage) { const g = rec.g[curPage] || (rec.g[curPage] = {}); g[kind] = (g[kind] || 0) + 1; g.last = Date.now(); }
+  saveRec();
+}
+// ひらがな: 1 = きいた、2 = クイズで せいかい
+function markKana(ch, lv) { if ((rec.kana[ch] || 0) < lv) { rec.kana[ch] = lv; saveRec(); } }
 function boing(el) { el.classList.remove('boing'); void el.offsetWidth; el.classList.add('boing'); }
 
 /* ---------- データ ---------- */
@@ -416,7 +472,7 @@ function quiz(el, o) {
       if (o.onRight) o.onRight(el, cur.target);
       setTimeout(() => { if (el.isConnected) next(); }, 1700);
     } else {
-      b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); boop();
+      b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); boop(); track('ng');
       say(o.wrong ? o.wrong(c, cur.target) : `それは ${o.name(c)}。 ${o.speak(cur.target)}`);
     }
   };
@@ -430,7 +486,7 @@ const PAGES = {
     modes: {
       'さわる': el => {
         el.innerHTML = `<div class="board">${colorPool().map((c, i) => `<button class="card" type="button" data-i="${i}"><div class="dot" style="background:${c.hex}"><span>${c.em}</span></div><div class="lbl" style="color:${c.hex}">${c.label || c.name}</div></button>`).join('')}</div>`;
-        $('.board', el).onclick = e => { const b = e.target.closest('.card'); if (!b) return; const c = COLORS[+b.dataset.i]; boing(b); say(`${c.name}。 ${c.thing}は ${c.name}`); };
+        $('.board', el).onclick = e => { const b = e.target.closest('.card'); if (!b) return; const c = COLORS[+b.dataset.i]; boing(b); track('touch'); say(`${c.name}。 ${c.thing}は ${c.name}`); };
       },
       'クイズ': el => quiz(el, {
         makeRound: roundFrom(colorPool()),
@@ -475,7 +531,7 @@ const PAGES = {
     modes: {
       'さわる': el => {
         el.innerHTML = `<div class="board">${shapePool().map((s, i) => `<button class="card" type="button" data-i="${i}">${shapeSvg(s, SHAPE_COLORS[i])}<div class="lbl">${s.label || s.name}</div></button>`).join('')}</div>`;
-        $('.board', el).onclick = e => { const b = e.target.closest('.card'); if (!b) return; boing(b); say(SHAPES[+b.dataset.i].name); };
+        $('.board', el).onclick = e => { const b = e.target.closest('.card'); if (!b) return; boing(b); track('touch'); say(SHAPES[+b.dataset.i].name); };
       },
       'クイズ': el => {
         const base = roundFrom(shapePool());
@@ -500,7 +556,7 @@ const PAGES = {
           el.querySelectorAll('.gojuon button').forEach(b => b.classList.toggle('on', b.dataset.ch === k.ch));
           if (speak) say(k.ch === 'を' || k.ch === 'ん' ? `${k.ch}。 ${k.word}の ${k.ch}` : `${k.ch}。 ${k.word}の ${k.ch}`);
         };
-        $('.gojuon', el).onclick = e => { const b = e.target.closest('button'); if (!b) return; boing(b); show(KANA.find(k => k.ch === b.dataset.ch), true); };
+        $('.gojuon', el).onclick = e => { const b = e.target.closest('button'); if (!b) return; boing(b); markKana(b.dataset.ch, 1); show(KANA.find(k => k.ch === b.dataset.ch), true); };
         show(KANA[0], false);
       },
       'クイズ': el => {
@@ -510,7 +566,7 @@ const PAGES = {
           prompt: t => `<em>${t.em} ${t.word}</em> の「${t.ch}」は どれ？`,
           speak: t => `${t.word}の ${t.ch}。 ${t.ch}は どれ？`,
           choice: c => `<span class="kana" style="color:${ROW_COLORS[c.row]}">${c.ch}</span>`,
-          name: c => c.ch,
+          name: c => c.ch, onRight: (el, t) => markKana(t.ch, 2),
         });
       },
     },
@@ -567,7 +623,7 @@ const PAGES = {
         el.innerHTML = `<div class="board">${SHADOWS.map((s, i) => `<button class="card kage" type="button" data-i="${i}"><span class="em">${s.em}</span></button>`).join('')}</div>`;
         $('.board', el).onclick = e => {
           const b = e.target.closest('.card'); if (!b) return;
-          boing(b); b.classList.toggle('show');
+          boing(b); b.classList.toggle('show'); track('touch');
           if (b.classList.contains('show')) say(SHADOWS[+b.dataset.i].name);
         };
       },
@@ -653,7 +709,7 @@ function countMode(el) {
     if (k === n) {
       setTimeout(() => {
         if (!el.isConnected) return;
-        chime(); addStar(); burst($('.tray', el));
+        chime(); addStar('done'); burst($('.tray', el));
         say(`ぜんぶで ${NUMW[n]}！ ${pick(PRAISE)}`);
         $('.result', el).innerHTML = `<span class="big">${n}</span><span style="font-size:24px">ぜんぶで ${n}こ！</span><button class="next" type="button">つぎ</button>`;
         $('.next', el).onclick = () => countMode(el);
@@ -674,7 +730,7 @@ function pianoMode(el, guided) {
   };
   const play = b => {
     const i = +b.dataset.i, nt = NOTES[i];
-    tone(nt.f, .9, 'triangle', .3); tone(nt.f * 2, .5, 'sine', .05);
+    track('touch'); tone(nt.f, .9, 'triangle', .3); tone(nt.f * 2, .5, 'sine', .05);
     b.classList.add('down'); setTimeout(() => b.classList.remove('down'), 150);
     const r = b.getBoundingClientRect(), f = document.createElement('span');
     f.className = 'note-fly'; f.textContent = pick(['♪', '♫']); f.style.color = nt.c;
@@ -684,7 +740,7 @@ function pianoMode(el, guided) {
       step++; paint();
       if (step === KIRAKIRA.notes.length) setTimeout(() => {
         if (!el.isConnected) return;
-        chime(); addStar(); burst($('.keys', el)); say('じょうずに ひけたね！');
+        chime(); addStar('done'); burst($('.keys', el)); say('じょうずに ひけたね！');
         el.querySelector('.hint').innerHTML = '<button class="next" type="button">もういっかい</button>';
         $('.next', el).onclick = () => pianoMode(el, true);
       }, 700);
@@ -700,7 +756,7 @@ function soundBoard(el, list) {
   el.innerHTML = `<div class="board">${list.map((a, i) => `<button class="card" type="button" data-i="${i}"><div class="em">${a.em}</div><div class="lbl">${a.label || a.name}</div></button>`).join('')}</div>`;
   $('.board', el).onclick = e => {
     const b = e.target.closest('.card'); if (!b) return; const a = list[+b.dataset.i];
-    boing(b); say(`${a.name}。 ${a.sound}`);
+    boing(b); track('touch'); say(`${a.name}。 ${a.sound}`);
     b.querySelector('.bubble')?.remove();
     const bb = document.createElement('span'); bb.className = 'bubble'; bb.textContent = a.sound + '！'; b.appendChild(bb); setTimeout(() => bb.remove(), 1500);
   };
@@ -764,11 +820,11 @@ function bodyMode(el, isQuiz) {
     const g = e.target.closest('[data-part]'); if (!g || locked) return;
     const p = g.dataset.part, name = BODY_PARTS[p];
     light(g); nameEl.textContent = name;
-    if (!isQuiz) { tone(523 + Object.keys(BODY_PARTS).indexOf(p) * 40, .25, 'sine', .15); say(name); return; }
+    if (!isQuiz) { track('touch'); tone(523 + Object.keys(BODY_PARTS).indexOf(p) * 40, .25, 'sine', .15); say(name); return; }
     if (p === target) {
       locked = true; chime(); burst(g); addStar(); say(`${pick(PRAISE)} ${name}`);
       setTimeout(() => { if (el.isConnected) next(); }, 1700);
-    } else { boop(); say(`そこは ${name}。 ${BODY_PARTS[target]}は どこ？`); }
+    } else { boop(); track('ng'); say(`そこは ${name}。 ${BODY_PARTS[target]}は どこ？`); }
   });
 }
 
@@ -789,7 +845,7 @@ function pairMode(el) {
       chime(); say(`${c.name}！ おなじだね`);
       if (done === n) setTimeout(() => {
         if (!el.isConnected) return;
-        addStar(); burst($('.pairs', el)); say(`ぜんぶ みつけたね！ ${pick(PRAISE)}`);
+        addStar('done'); burst($('.pairs', el)); say(`ぜんぶ みつけたね！ ${pick(PRAISE)}`);
         $('.result', el).innerHTML = '<button class="next" type="button">もういっかい</button>';
         $('.next', el).onclick = () => pairMode(el);
       }, 700);
@@ -861,7 +917,7 @@ function drawMode(el, stampMode) {
 /* ---------- がめん ---------- */
 const app = $('#app');
 function topBar(inner) {
-  return `<header class="top">${inner}<span class="pill" title="あつめた ほし"><span class="st">★</span><span id="starCount">${stars}</span></span>
+  return `<header class="top">${inner}<span class="pill" title="あつめた ほし"><span class="st">★</span><span id="starCount">${rec.stars}</span></span>
     <button class="pill btn" id="soundBtn" type="button" aria-pressed="${soundOn}" aria-label="おと">${soundOn ? ICON.speaker : ICON.mute}${soundOn ? 'おと あり' : 'おと なし'}</button></header>`;
 }
 function bindSound() {
@@ -874,7 +930,7 @@ function bindSound() {
 const JUKEN_URL = 'https://kfukuzumi1119-debug.github.io/kids-asobi/juken/';
 function renderChooser() {
   const L = window.AGE_LINKS;
-  app.innerHTML = topBar('<h1>あそんでまなぼ</h1>') + `
+  app.innerHTML = topBar('<h1>あそんでまなぼ</h1>' + recPill()) + `
     <div class="hello"><p>なんさいかな？ えらぶと、その としに あった あそびと むずかしさに なります。</p></div>
     <nav class="ages">${[2, 3, 4].map(a => { const c = AGES[a], inner = `<b>${a}<small>さい</small></b><span>${c.pick}</span>`;
       return L ? `<a class="age" href="${L[a]}" style="--ac:${c.color}">${inner}</a>` : `<button class="age" type="button" data-age="${a}" style="--ac:${c.color}">${inner}</button>`; }).join('')}</nav>
@@ -889,7 +945,7 @@ function renderHome() {
   const agePill = L ? `<a class="pill agepill" href="${L.home}" style="--ac:${c.color}">${c.label}<small>かえる</small></a>`
     : `<button class="pill agepill" type="button" id="ageBtn" style="--ac:${c.color}">${c.label}<small>かえる</small></button>`;
   const others = L ? `<br>ほかの年齢：${[2, 3, 4].filter(a => a !== age).map(a => `<a href="${L[a]}" style="color:var(--c-katachi)">${AGES[a].label}むけ</a>`).join('・')}` : '';
-  app.innerHTML = topBar(`<h1>あそんでまなぼ</h1>${agePill}`) + `
+  app.innerHTML = topBar(`<h1>あそんでまなぼ</h1>${agePill}${recPill()}`) + `
     <div class="hello"><p>${c.lead}せいかいすると ★が たまります。</p></div>
     <nav class="tiles">${c.pages.map(id => { const p = PAGES[id]; return `<a class="tile" href="#${id}" style="background:${p.color}"><span class="pic">${TILE_PIC[id]}</span><b>${p.title}</b><small>${p.sub}</small></a>`; }).join('')}</nav>
     <div class="note"><b>おうちの方へ（${c.label}むけ）</b>　${c.note}音声はブラウザの読み上げ機能を使うので、音が出ないときは端末のマナーモードや音量を確認してください。${age === 4 ? `<br><a href="${JUKEN_URL}" style="color:var(--c-katachi)">おうちじゅけんドリル（小学校受験のペーパー対策）へ</a>` : ''}${others}</div>`;
@@ -897,6 +953,7 @@ function renderHome() {
   const ab = $('#ageBtn'); if (ab) ab.onclick = () => { choosing = true; renderHome(); };
 }
 function renderPage(id) {
+  if (curPage !== id) { curPage = id; track('open'); }
   const p = PAGES[id], names = (cfg().modes[id] || Object.keys(p.modes)).filter(m => p.modes[m]);
   const mode = names.includes(state.mode[id]) ? state.mode[id] : names[0];
   app.style.setProperty('--pc', p.color);
@@ -911,10 +968,65 @@ function renderPage(id) {
   app.querySelectorAll('[data-range]').forEach(b => b.onclick = () => { state.range = +b.dataset.range; store.set('range', state.range); renderPage(id); });
   app.querySelectorAll('[data-pairs]').forEach(b => b.onclick = () => { state.pairs = +b.dataset.pairs; store.set('pairs', state.pairs); renderPage(id); });
 }
+const BOOK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2Z"/><path d="M4 19V5M9 8h6"/></svg>';
+const recPill = () => `<a class="pill" href="#kiroku" title="きろく">${BOOK}${esc(profName(profiles.find(p => p.id === pid)))}</a>`;
+function renderRecord() {
+  app.style.removeProperty('--pc');
+  const cur = profiles.find(p => p.id === pid), days = Object.keys(rec.days).sort();
+  const md = d => `${d.getMonth() + 1}/${d.getDate()}`;
+  const gs = Object.values(rec.g), ok = gs.reduce((s, g) => s + (g.ok || 0), 0);
+  const strip = Array.from({ length: 14 }, (_, i) => { const d = new Date(); d.setDate(d.getDate() - 13 + i); return d; }).map(d => {
+    const n = rec.days[dayKey(d)] || 0, lv = n === 0 ? 0 : n < 20 ? 1 : n < 60 ? 2 : 3;
+    return `<span class="day l${lv}" title="${md(d)} ${n}かい"><i></i><small>${['日', '月', '火', '水', '木', '金', '土'][d.getDay()]}</small></span>`;
+  }).join('');
+  const played = ORDER.filter(id => rec.g[id]).sort((a, b) => rec.g[b].last - rec.g[a].last), notYet = ORDER.filter(id => !rec.g[id]);
+  const rows = played.map(id => {
+    const p = PAGES[id], g = rec.g[id], q = (g.ok || 0) + (g.ng || 0), rate = q ? Math.round((g.ok || 0) / q * 100) : 0;
+    return `<tr><th><i style="background:${p.color}"></i>${p.title}</th><td>${md(new Date(g.last))}</td>
+      <td>${q ? `${g.ok || 0}/${q}<span class="bar"><b style="width:${rate}%"></b></span>` : '—'}</td><td>${g.touch || 0}</td><td>${g.done || 0}</td></tr>`;
+  }).join('');
+  const kanaDone = Object.keys(rec.kana).length, kanaOk = Object.values(rec.kana).filter(v => v >= 2).length;
+  app.innerHTML = topBar(`<a class="back" href="#">${ICON.home}もどる</a><h1>きろく</h1>`) + `
+    <section class="recbox"><h2>だれの きろく？</h2>
+      <div class="profs">${profiles.map(p => `<button class="chip" type="button" data-pid="${p.id}" aria-pressed="${p.id === pid}">${esc(profName(p))}</button>`).join('')}<button class="chip" type="button" id="addProf">＋ ふやす</button></div>
+      <div class="namerow"><label for="pname">なまえ</label><input id="pname" maxlength="12" value="${esc(cur.name)}" placeholder="れい：はなこ"><button class="chip" type="button" id="saveName">ほぞん</button></div>
+    </section>
+    <section class="stats">
+      <div><b>${rec.stars}</b><span>あつめた ★</span></div>
+      <div><b>${days.length}</b><span>あそんだ ひ</span></div>
+      <div><b>${ok}</b><span>クイズ せいかい</span></div>
+      <div><b>${days.length ? md(new Date(days[days.length - 1].replace(/-/g, '/'))) : '—'}</b><span>さいごに あそんだ ひ</span></div>
+    </section>
+    <section class="recbox"><h2>この 2しゅうかん</h2><div class="strip">${strip}</div><p class="small">いろが こいほど たくさん あそんだ ひ です。</p></section>
+    <section class="recbox"><h2>あそびごとの きろく</h2>
+      ${played.length ? `<div class="tablewrap"><table class="rec"><thead><tr><th>あそび</th><th>さいご</th><th>クイズ せいかい</th><th>さわった</th><th>できた</th></tr></thead><tbody>${rows}</tbody></table></div>` : '<p class="small">まだ きろくが ありません。あそぶと ここに たまっていきます。</p>'}
+      ${notYet.length ? `<p class="small">まだ あそんで いない：${notYet.map(id => PAGES[id].title).join('・')}</p>` : ''}
+      <p class="small">「できた」は、かずを さいごまで かぞえた・ペアを ぜんぶ みつけた・きらきらぼしを ひけた かいすう です。</p>
+    </section>
+    <section class="recbox"><h2>ひらがな（${kanaDone}/46）</h2>
+      <div class="gojuon rec">${KANA_ROWS.map(r => r.map(k => k ? `<span class="k${rec.kana[k[0]] || 0}">${k[0]}</span>` : '<i></i>').join('')).join('')}</div>
+      <p class="small"><span class="key k1">あ</span> きいた　<span class="key k2">あ</span> クイズで せいかい（${kanaOk}もじ）</p>
+    </section>
+    <div class="note"><b>おうちの方へ</b>　記録はこの端末のこのブラウザにだけ保存されます（サーバーには送っていません）。ブラウザの履歴・サイトデータを消すと記録も消え、ほかのスマホとは共有されません。名前は「おうちじゅけんドリル」と共通です。
+      <div class="btns"><button class="chip" type="button" id="resetRec">この人の きろくを けす</button>${profiles.length > 1 ? '<button class="chip" type="button" id="delProf">この人を けす</button>' : ''}</div></div>`;
+  bindSound();
+  app.querySelectorAll('[data-pid]').forEach(b => b.onclick = () => { pid = b.dataset.pid; saveProfiles(); loadRec(); renderRecord(); });
+  $('#addProf').onclick = () => { const id = 'p' + Date.now(); profiles.push({ id, name: '' }); pid = id; saveProfiles(); loadRec(); renderRecord(); $('#pname').focus(); };
+  $('#saveName').onclick = () => { cur.name = $('#pname').value.trim().slice(0, 12); saveProfiles(); renderRecord(); };
+  $('#pname').onkeydown = e => { if (e.key === 'Enter') $('#saveName').click(); };
+  // まちがえて けさないよう、2かい おしたときだけ けす
+  const twice = (btn, label, act) => { let armed = 0; btn.onclick = () => { if (!armed) { btn.textContent = 'ほんとに けす？'; armed = setTimeout(() => { armed = 0; btn.textContent = label; }, 3000); return; } clearTimeout(armed); act(); }; };
+  twice($('#resetRec'), 'この人の きろくを けす', () => { try { localStorage.removeItem('asobi.rec.' + pid); } catch (e) {} rec = { stars: 0, days: {}, g: {}, kana: {} }; saveRec(); renderRecord(); });
+  if ($('#delProf')) twice($('#delProf'), 'この人を けす', () => {
+    try { localStorage.removeItem('asobi.rec.' + pid); localStorage.removeItem('juken.rec.' + pid); } catch (e) {}
+    profiles = profiles.filter(p => p.id !== pid); pid = profiles[0].id; saveProfiles(); loadRec(); renderRecord();
+  });
+}
 function route() {
   try { speechSynthesis.cancel(); } catch (e) {}
   const id = location.hash.slice(1);
-  if (PAGES[id] && (age || window.AGE_FIXED || !window.AGE_LINKS)) renderPage(id); else { app.style.removeProperty('--pc'); renderHome(); }
+  if (id === 'kiroku') renderRecord();
+  else if (PAGES[id] && (age || window.AGE_FIXED || !window.AGE_LINKS)) renderPage(id); else { curPage = null; app.style.removeProperty('--pc'); renderHome(); }
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', route);

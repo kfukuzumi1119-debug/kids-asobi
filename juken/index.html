@@ -142,6 +142,36 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px}
 .marks span{width:34px;height:34px;border-radius:8px;border:2px solid var(--line);display:grid;place-items:center;color:var(--red);font-size:20px}
 .btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 
+/* きろく */
+.recbox{background:var(--paper);border:2px solid var(--line);border-radius:20px;padding:16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;min-width:0}
+.recbox h2{margin:0;font-family:var(--display);font-weight:400;font-size:20px}
+.small{margin:0;color:var(--muted);font-size:13px;font-weight:500;line-height:1.6}
+.profs{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:2px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 14px;font-size:15px}
+.chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--accentbg)}
+.namerow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.namerow input{font:inherit;font-size:17px;padding:8px 12px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink);min-width:0;flex:1 1 140px;max-width:240px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.stats div{background:var(--paper);border:2px solid var(--line);border-radius:16px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.stats b{font-family:var(--display);font-weight:400;font-size:clamp(22px,6vw,30px);color:var(--accent);font-variant-numeric:tabular-nums}
+.stats span{font-size:12px;color:var(--muted)}
+.tablewrap{overflow-x:auto}
+table.rec{border-collapse:collapse;width:100%;min-width:460px;font-size:14px;font-variant-numeric:tabular-nums}
+table.rec th,table.rec td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+table.rec thead th{font-size:12px;color:var(--muted)}
+table.rec tbody th i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+.bar{display:inline-block;width:56px;height:8px;border-radius:99px;background:var(--grid);margin-left:6px;vertical-align:middle;overflow:hidden}
+.bar b{display:block;height:100%;background:var(--accent)}
+.weak,.hist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.weak li{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+.weak a{color:var(--red);font-size:18px}
+.weak span{color:var(--muted);font-size:13px;font-weight:500}
+.hist li{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:baseline;border-bottom:1px dashed var(--line);padding-bottom:6px;font-variant-numeric:tabular-nums}
+.hist li span:first-child{color:var(--muted);font-size:13px}
+.hist em{font-style:normal;color:var(--red);font-family:var(--display)}
+.hist .om{grid-column:1/-1;color:var(--red);letter-spacing:2px;font-size:14px}
+@media (max-width:520px){ .stats{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
 @media (max-width:520px){ .choices{gap:8px} .choice{min-height:90px;border-radius:14px} }
 @media (prefers-reduced-motion:reduce){ *{animation-duration:.01ms!important;transition:none!important} .timer i{animation-duration:var(--t)!important} }
 </style>
@@ -530,7 +560,7 @@ function makeSet(id) {
     const [g, s] = bag.pop();
     let q; for (let t = 0; t < 8; t++) { q = g(); if (!seen.has(q.text + q.choices[q.answer].label + (q.story || ''))) break; }
     seen.add(q.text + q.choices[q.answer].label + (q.story || ''));
-    q.sec = s; out.push(q);
+    q.sec = s; q.gen = g.name; out.push(q);
   }
   return out;
 }
@@ -547,7 +577,38 @@ const MARK_NG = '<svg class="mark" viewBox="0 0 100 100" preserveAspectRatio="no
 /* ---------- がめん ---------- */
 const app = $('#app');
 let timer = 0, S = null;
-const best = store.get('best', {});
+/* ---------- きろく（この たんまつの ブラウザに だけ のこす。なまえは あそんでまなぼと きょうつう） ---------- */
+const kidsGet = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+const kidsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+let profiles = kidsGet('kids.profiles', null) || [{ id: 'p1', name: '' }];
+let pid = kidsGet('kids.cur', profiles[0].id);
+if (!profiles.some(p => p.id === pid)) pid = profiles[0].id;
+let rec;
+// むかしの さいこうてん（なまえを わける まえ）は さいしょの ひとに ひきつぐ
+function loadRec() { rec = kidsGet('juken.rec.' + pid, null) || { best: pid === 'p1' ? store.get('best', {}) : {}, sets: [], types: {}, secs: {} }; }
+loadRec();
+const saveRec = () => kidsSet('juken.rec.' + pid, rec);
+const saveProfiles = () => { kidsSet('kids.profiles', profiles); kidsSet('kids.cur', pid); };
+const profName = p => p.name || 'なまえ なし';
+function countAnswer(q, ok) {
+  for (const [bag, k] of [[rec.types, q.gen], [rec.secs, q.sec]]) { const t = bag[k] || (bag[k] = { ok: 0, ng: 0 }); ok ? t.ok++ : t.ng++; }
+  saveRec();
+}
+function saveSet(n) {
+  if (rec.best[S.id] == null || n > rec.best[S.id]) rec.best[S.id] = n;
+  rec.sets.push({ t: Date.now(), sec: S.id, n, res: S.res.map(Number) });
+  if (rec.sets.length > 300) rec.sets = rec.sets.slice(-300);
+  saveRec();
+}
+const TYPE_LABEL = {
+  qCount: 'かぞえる', qMore: 'いくつ おおい', qAdd: 'あわせる', qShare: 'おなじ かずずつ わける', qShort: 'いくつ たりない',
+  qSame: 'おなじ かたち', qRotate: 'まわす（回転）', qOverlay: 'かさねる', qMirror: 'かがみ',
+  qSeries: 'きまり（系列）', qSeesaw: 'シーソー', qBlackBox: 'ブラックボックス',
+  qOrdinal: 'なんばんめ', qOrdinalAsk: 'なんばんめか こたえる', qShelf: 'たなの だん', qNext: 'すぐ となり',
+  qStory: 'おはなしの きおく', qSeeMem: 'みて おぼえる', qPlaceMem: 'ばしょの きおく', qCountMem: 'かずの きおく',
+  qHead: 'あたまの おと', qShiri: 'しりとり', qMora: 'おとの かず', qSeason: 'きせつ', qOdd: 'なかまはずれ', qTool: 'どうぐ・しごと',
+};
 function topBar(inner) {
   return `<header class="top">${inner}<button class="pill" id="soundBtn" type="button" aria-pressed="${soundOn}">${soundOn ? ICON.speaker : ICON.mute}${soundOn ? 'こえ あり' : 'こえ なし'}</button></header>`;
 }
@@ -560,8 +621,8 @@ function bindSound() {
 }
 function renderHome() {
   app.style.removeProperty('--sc');
-  const card = (id, s) => `<a class="sec${id === 'mix' ? ' mix' : ''}" href="#${id}" style="--sc:${s.c}"><span class="ic">${s.ic}</span><b>${s.t}<span>${s.k}</span></b><small>${s.d}</small><span class="best">${best[id] != null ? `さいこう ${best[id]}/${PER_SET}もん` : 'まだ やって いません'}</span></a>`;
-  app.innerHTML = topBar('<h1><small>小学校受験 ペーパー対策</small>おうちじゅけんドリル</h1>') + `
+  const card = (id, s) => `<a class="sec${id === 'mix' ? ' mix' : ''}" href="#${id}" style="--sc:${s.c}"><span class="ic">${s.ic}</span><b>${s.t}<span>${s.k}</span></b><small>${s.d}</small><span class="best">${rec.best[id] != null ? `さいこう ${rec.best[id]}/${PER_SET}もん` : 'まだ やって いません'}</span></a>`;
+  app.innerHTML = topBar('<h1><small>小学校受験 ペーパー対策</small>おうちじゅけんドリル</h1>' + recPill()) + `
     <p class="lead">小学校入試のペーパーテストによく出る<b>7つの分野</b>を、1回10問で練習できます。問題は毎回ちがう組み合わせで作られ、先生のように<b>声で読み上げ</b>ます。答えると赤ペンで○×がつき、まちがえたときは考え方が出ます。年中〜年長（4〜6さい）向け。</p>
     <nav class="secs">${ORDER.map(id => card(id, SECTIONS[id])).join('')}${card('mix', { t: 'ミックス', k: '総合', d: '7つの ぶんやから まぜて 10もん', c: '#1F7A5A', ic: '全' })}</nav>
     <section class="parents"><h2>おうちの方へ</h2><ul>
@@ -599,7 +660,7 @@ function showQ() {
   $('.choices').onclick = e => {
     const b = e.target.closest('.choice'); if (!b || sheet.classList.contains('answered')) return;
     const i = +b.dataset.i, ok = i === q.answer, cs = [...sheet.querySelectorAll('.choice')];
-    sheet.classList.add('answered'); S.res.push(ok);
+    sheet.classList.add('answered'); S.res.push(ok); countAnswer(q, ok);
     cs[q.answer].insertAdjacentHTML('beforeend', MARK_OK);
     if (!ok) b.insertAdjacentHTML('beforeend', MARK_NG);
     const fb = $('.fb'); fb.hidden = false;
@@ -631,7 +692,7 @@ function showPre(q) {
 function showResult() {
   hush();
   const n = S.res.filter(Boolean).length;
-  if (best[S.id] == null || n > best[S.id]) { best[S.id] = n; store.set('best', best); }
+  saveSet(n);
   const msg = n === PER_SET ? 'ぜんもん せいかい！ すごい！' : n >= 8 ? 'よく できました！' : n >= 5 ? 'その ちょうし！' : 'まちがえた もんだいが いちばん べんきょうに なるよ';
   frame(`<section class="sheet result"><div class="score">${n}<small> / ${PER_SET}もん</small></div><div class="qtext" style="text-align:center">${msg}</div>
     <div class="marks">${S.res.map(r => `<span>${r ? '○' : '×'}</span>`).join('')}</div>
@@ -640,10 +701,64 @@ function showResult() {
   say(`${PER_SET}もん ちゅう ${n}もん せいかい。${msg}`);
   $('#retry').onclick = () => startSection(S.id);
 }
+const BOOK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2Z"/><path d="M4 19V5M9 8h6"/></svg>';
+const recPill = () => `<a class="pill" href="#kiroku" title="きろく">${BOOK}${esc(profName(profiles.find(p => p.id === pid)))}</a>`;
+function renderRecord() {
+  app.style.removeProperty('--sc');
+  const cur = profiles.find(p => p.id === pid);
+  const pct = t => t && t.ok + t.ng ? Math.round(t.ok / (t.ok + t.ng) * 100) : null;
+  const when = ts => { const d = new Date(ts); return `${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`; };
+  const all = Object.values(rec.secs).reduce((a, t) => ({ ok: a.ok + t.ok, ng: a.ng + t.ng }), { ok: 0, ng: 0 });
+  const secName = id => id === 'mix' ? 'ミックス' : `${SECTIONS[id].t}（${SECTIONS[id].k}）`;
+  const rows = ORDER.map(id => {
+    const s = SECTIONS[id], t = rec.secs[id], r = pct(t), sets = rec.sets.filter(x => x.sec === id), last = sets[sets.length - 1];
+    return `<tr><th><i style="background:${s.c}"></i>${s.k}</th><td>${r == null ? '—' : `${r}%<span class="bar"><b style="width:${r}%"></b></span>`}</td>
+      <td>${t ? t.ok + t.ng : 0}</td><td>${sets.length}</td><td>${rec.best[id] != null ? rec.best[id] + '/' + PER_SET : '—'}</td><td>${last ? when(last.t).split(' ')[0] : '—'}</td></tr>`;
+  }).join('');
+  const weak = Object.entries(rec.types).filter(([, t]) => t.ok + t.ng >= 5 && pct(t) < 80).sort((a, b) => pct(a[1]) - pct(b[1])).slice(0, 3);
+  const secOf = gen => ORDER.find(id => SECTIONS[id].g.some(g => g.name === gen));
+  app.innerHTML = topBar(`<a class="back" href="#">${ICON.home}もどる</a><h1>きろく</h1>`) + `
+    <section class="recbox"><h2>だれの きろく？</h2>
+      <div class="profs">${profiles.map(p => `<button class="chip" type="button" data-pid="${p.id}" aria-pressed="${p.id === pid}">${esc(profName(p))}</button>`).join('')}<button class="chip" type="button" id="addProf">＋ ふやす</button></div>
+      <div class="namerow"><label for="pname">なまえ</label><input id="pname" maxlength="12" value="${esc(cur.name)}" placeholder="れい：はなこ"><button class="chip" type="button" id="saveName">ほぞん</button></div>
+    </section>
+    <section class="stats">
+      <div><b>${rec.sets.length}</b><span>やった かいすう（10もん）</span></div>
+      <div><b>${all.ok + all.ng}</b><span>といた もんだい</span></div>
+      <div><b>${pct(all) == null ? '—' : pct(all) + '%'}</b><span>せいかいりつ</span></div>
+      <div><b>${rec.sets.length ? when(rec.sets[rec.sets.length - 1].t).split(' ')[0] : '—'}</b><span>さいごに やった ひ</span></div>
+    </section>
+    <section class="recbox"><h2>ぶんやごとの きろく</h2>
+      <div class="tablewrap"><table class="rec"><thead><tr><th>分野</th><th>正答率</th><th>問題数</th><th>回数</th><th>最高</th><th>最後</th></tr></thead><tbody>${rows}</tbody></table></div>
+      <p class="small">ミックスで解いた問題も、それぞれの分野に数えています。</p>
+    </section>
+    <section class="recbox"><h2>にがてかも？</h2>
+      ${weak.length ? `<ul class="weak">${weak.map(([g, t]) => `<li><a href="#${secOf(g)}">${TYPE_LABEL[g] || g}</a><span>${SECTIONS[secOf(g)].k}・正答率 ${pct(t)}%（${t.ok + t.ng}問）</span></li>`).join('')}</ul>`
+        : '<p class="small">同じ種類の問題を5問以上といて、正答率が80%より低いものがここに出ます。いまは ありません。</p>'}
+    </section>
+    <section class="recbox"><h2>さいきんの 10かい</h2>
+      ${rec.sets.length ? `<ul class="hist">${rec.sets.slice(-10).reverse().map(x => `<li><span>${when(x.t)}</span><b>${secName(x.sec)}</b><em>${x.n}/${PER_SET}</em><span class="om">${x.res.map(r => r ? '○' : '×').join('')}</span></li>`).join('')}</ul>`
+        : '<p class="small">10もん さいごまで やると ここに のこります。</p>'}
+    </section>
+    <div class="parents" style="border-style:dashed">記録はこの端末のこのブラウザにだけ保存されます（サーバーには送っていません）。ブラウザの履歴・サイトデータを消すと記録も消え、ほかのスマホとは共有されません。名前は「あそんでまなぼ」と共通です。
+      <div class="btns" style="justify-content:flex-start;margin-top:10px"><button class="chip" type="button" id="resetRec">この人の きろくを けす</button>${profiles.length > 1 ? '<button class="chip" type="button" id="delProf">この人を けす</button>' : ''}</div></div>`;
+  bindSound();
+  app.querySelectorAll('[data-pid]').forEach(b => b.onclick = () => { pid = b.dataset.pid; saveProfiles(); loadRec(); renderRecord(); });
+  $('#addProf').onclick = () => { const id = 'p' + Date.now(); profiles.push({ id, name: '' }); pid = id; saveProfiles(); loadRec(); renderRecord(); $('#pname').focus(); };
+  $('#saveName').onclick = () => { cur.name = $('#pname').value.trim().slice(0, 12); saveProfiles(); renderRecord(); };
+  $('#pname').onkeydown = e => { if (e.key === 'Enter') $('#saveName').click(); };
+  // まちがえて けさないよう、2かい おしたときだけ けす
+  const twice = (btn, label, act) => { let armed = 0; btn.onclick = () => { if (!armed) { btn.textContent = 'ほんとに けす？'; armed = setTimeout(() => { armed = 0; btn.textContent = label; }, 3000); return; } clearTimeout(armed); act(); }; };
+  twice($('#resetRec'), 'この人の きろくを けす', () => { try { localStorage.removeItem('juken.rec.' + pid); } catch (e) {} rec = { best: {}, sets: [], types: {}, secs: {} }; saveRec(); renderRecord(); });
+  if ($('#delProf')) twice($('#delProf'), 'この人を けす', () => {
+    try { localStorage.removeItem('juken.rec.' + pid); localStorage.removeItem('asobi.rec.' + pid); } catch (e) {}
+    profiles = profiles.filter(p => p.id !== pid); pid = profiles[0].id; saveProfiles(); loadRec(); renderRecord();
+  });
+}
 function route() {
   clearTimeout(timer); hush();
   const id = location.hash.slice(1);
-  if (SECTIONS[id] || id === 'mix') startSection(id); else renderHome();
+  if (id === 'kiroku') renderRecord(); else if (SECTIONS[id] || id === 'mix') startSection(id); else renderHome();
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', route);
