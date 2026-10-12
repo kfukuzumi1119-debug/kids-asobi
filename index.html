@@ -195,6 +195,7 @@ button:focus-visible,a:focus-visible{outline:4px solid var(--c-katachi);outline-
 .chip[aria-pressed="true"]{border-color:var(--c-katachi);color:var(--c-katachi)}
 .namerow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .namerow input{font:inherit;font-size:17px;padding:8px 12px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink);min-width:0;flex:1 1 140px;max-width:240px;user-select:text;-webkit-user-select:text}
+.namerow select{font:inherit;font-size:16px;padding:8px 10px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink);min-width:0;flex:1 1 200px;max-width:100%}
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .stats div{background:var(--paper);border-radius:18px;padding:12px 8px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
 .stats b{font-family:var(--display);font-weight:400;font-size:clamp(24px,6vw,32px);color:var(--c-katachi);font-variant-numeric:tabular-nums}
@@ -327,15 +328,38 @@ function sweep(f1, f2, dur, type, vol) {
   o.connect(g); g.connect(a.destination); o.start(t); o.stop(t + dur + .05);
 }
 const boop = () => tone(196, .3, 'sine', .18);
-let jaVoice = null;
-function loadVoices() { try { const vs = speechSynthesis.getVoices(); jaVoice = vs.find(v => /ja/i.test(v.lang)) || null; } catch (e) {} }
-try { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; } catch (e) {}
+let jaVoice = null, jaVoices = [];
+// しぜんな こえを さきに えらぶ（Edge の Natural、Chrome の Google、iPhone の 拡張版 など）。えらんだ こえは kids.voice（2つの アプリで きょうつう）
+const VOICE_RANK = [/Nanami/i, /Natural/i, /Online/i, /Google/i, /(Enhanced|Premium|拡張|プレミアム)/i, /O-?Ren/i, /Kyoko/i, /Otoya/i, /Hattori/i];
+const voiceScore = v => { const i = VOICE_RANK.findIndex(re => re.test(v.name)); return i < 0 ? 99 : i; };
+const isNatural = v => !!v && /Natural|Online|Google|Enhanced|Premium|拡張|プレミアム/i.test(v.name);
+function loadVoices() {
+  try {
+    jaVoices = speechSynthesis.getVoices().filter(v => /^ja/i.test(v.lang)).sort((a, b) => voiceScore(a) - voiceScore(b));
+    let saved = null; try { saved = localStorage.getItem('kids.voice'); } catch (e) {}
+    jaVoice = jaVoices.find(v => v.name === saved) || jaVoices[0] || null;
+  } catch (e) {}
+}
+// しぜんな こえは そのままの たかさが いちばん ひとらしい。きかいの こえは すこし たかく ゆっくり
+function voiceTune(u) { u.lang = 'ja-JP'; if (jaVoice) u.voice = jaVoice; const nat = isNatural(jaVoice); u.rate = nat ? .9 : .85; u.pitch = nat ? 1 : 1.08; }
+try { loadVoices(); speechSynthesis.onvoiceschanged = () => { loadVoices(); if (location.hash === '#kiroku' && !document.querySelector('#voiceSel')) renderRecord(); }; } catch (e) {}
+function voicePickerHTML() {
+  return `<section class="recbox"><h2>こえを えらぶ</h2>
+    ${jaVoices.length ? `<div class="namerow"><select id="voiceSel" aria-label="こえ">${jaVoices.map(v => `<option value="${esc(v.name)}"${jaVoice && v.name === jaVoice.name ? ' selected' : ''}>${esc(v.name.replace(/^Microsoft /, '').replace(/ - Japanese \(Japan\)/, ''))}${isNatural(v) ? '（しぜん）' : ''}</option>`).join('')}</select><button class="chip" type="button" id="voiceTest">ためしに きく</button></div>`
+      : '<p class="small">この端末では日本語の声が見つかりませんでした。</p>'}
+    <p class="small">「（しぜん）」とついた声が人の声に近いです。Windows のパソコンは Edge で開くと「Nanami」が選べます。iPhone・iPad は 設定 → アクセシビリティ → 読み上げコンテンツ → 声 → 日本語 で「O-Ren（拡張）」などをダウンロードすると選べるようになります。声はこの端末に保存され、もう一方のアプリとも共通です。</p></section>`;
+}
+function bindVoicePicker() {
+  const s = document.querySelector('#voiceSel'); if (!s) return;
+  s.onchange = () => { jaVoice = jaVoices.find(v => v.name === s.value) || jaVoice; try { localStorage.setItem('kids.voice', s.value); } catch (e) {} say('この こえで よみあげるよ'); };
+  document.querySelector('#voiceTest').onclick = () => say('こんにちは。いっしょに あそぼう！');
+}
 function say(text) {
   if (!soundOn || !text) return;
   try {
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ja-JP'; u.rate = .85; u.pitch = 1.15; if (jaVoice) u.voice = jaVoice;
+    voiceTune(u);
     speechSynthesis.speak(u);
   } catch (e) {}
 }
@@ -1018,6 +1042,7 @@ function topBar(inner) {
     <button class="pill btn" id="soundBtn" type="button" aria-pressed="${soundOn}" aria-label="おと">${soundOn ? ICON.speaker : ICON.mute}${soundOn ? 'おと あり' : 'おと なし'}</button></header>`;
 }
 function bindSound() {
+  bindVoicePicker();
   const mc = $('#mascot');
   if (mc) mc.onclick = () => { const l = pick(T().tap); mascotTalk(l); say(l); if (curMode() === 'dino') sweep(260, 120, .4, 'sawtooth', .08); else tone(1568, .3, 'sine', .1); };
   $('#soundBtn').onclick = e => {
@@ -1095,6 +1120,7 @@ function renderRecord() {
       <div class="profs">${profiles.map(p => `<button class="chip" type="button" data-pid="${p.id}" aria-pressed="${p.id === pid}">${esc(profName(p))}</button>`).join('')}<button class="chip" type="button" id="addProf">＋ ふやす</button></div>
       <div class="namerow"><label for="pname">なまえ</label><input id="pname" maxlength="12" value="${esc(cur.name)}" placeholder="れい：はなこ"><button class="chip" type="button" id="saveName">ほぞん</button></div>
     </section>
+    ${voicePickerHTML()}
     <section class="stats">
       <div><b>${rec.stars}</b><span>あつめた ★</span></div>
       <div><b>${days.length}</b><span>あそんだ ひ</span></div>
