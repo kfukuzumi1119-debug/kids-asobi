@@ -28,6 +28,7 @@
   --good:#24985A; --goodbg:#E2F6EA; --star:#F5B400;
   --c-iro:#D9455A; --c-kazu:#C96A0C; --c-doubutsu:#2B8A50; --c-katachi:#2F72C2; --c-hiragana:#7A4FC4; --c-oto:#C24686;
   --c-norimono:#1F7AA3; --c-tabemono:#A0582A; --c-kage:#3E4A66; --c-kuraberu:#8A6E00; --c-karada:#C4503A; --c-pair:#16857B; --c-oekaki:#9A3FB0;
+  --c-naraberu:#C25D78; --c-nazoru:#3D7A5A; --c-sandankai:#7A6545; --c-otoawase:#A8701F; --c-seikatsu:#3F7598;
   --shadow:0 5px 0 rgba(30,41,64,.13);
   --display:"Mochiy Pop One","Zen Maru Gothic","Hiragino Maru Gothic ProN","Meiryo",sans-serif;
   --body:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Meiryo",sans-serif;
@@ -184,6 +185,48 @@ button:focus-visible,a:focus-visible{outline:4px solid var(--c-katachi);outline-
 .mascot svg{width:100%;height:100%}
 .mbubble{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);border-radius:14px;padding:5px 12px;font-size:15px;white-space:nowrap;z-index:5;pointer-events:none}
 .mbubble::before{content:"";position:absolute;top:-6px;left:50%;margin-left:-6px;border:6px solid transparent;border-top:0;border-bottom-color:var(--ink)}
+/* モンテッソーリ モード: きの いろの しずかな がめん */
+:root[data-mode="monte"]{--bg:#F1EDE5;--soft:#E6DFD2;--line:#D8CDBB}
+@media (prefers-color-scheme: dark){ :root[data-mode="monte"]:not([data-theme="light"]){--bg:#1A1814;--soft:#2A2620;--line:#3B352C} }
+:root[data-theme="dark"][data-mode="monte"]{--bg:#1A1814;--soft:#2A2620;--line:#3B352C}
+:root[data-mode="monte"] .tile{filter:saturate(.62)}
+.monte-group{display:flex;flex-direction:column;gap:10px;border-top:3px dotted var(--line);padding-top:14px}
+.monte-group h2{margin:0;font-family:var(--display);font-weight:400;font-size:22px}
+/* ならべる */
+.seq-tray{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:10px;background:var(--paper);border-radius:24px;padding:16px;min-height:110px;box-shadow:var(--shadow)}
+.seq-built{display:flex;flex-direction:column-reverse;align-items:center;gap:2px;min-height:40px;padding:6px}
+.seq-built.row{flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:6px}
+.seq-built.rods{align-items:flex-start;flex-direction:column}
+.seq-tray.rods{flex-direction:column;align-items:flex-start}
+.seq-item{border:none;background:none;padding:0;display:grid;place-items:center}
+.seq-item:disabled{cursor:default}
+.cube{display:block;width:calc(var(--s) * clamp(10px,3.2vw,15px) + 12px);aspect-ratio:1;border-radius:3px;background:#EFA3BA;box-shadow:inset -5px -5px 0 rgba(0,0,0,.08),0 2px 0 rgba(0,0,0,.12)}
+.tower .cube{box-shadow:inset -5px -5px 0 rgba(0,0,0,.08)}
+.rod{display:flex;height:24px;border-radius:3px;overflow:hidden;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.rod i{display:block;width:clamp(22px,8.2vw,40px);height:100%;background:#D64541}
+.rod i:nth-child(even){background:#3B6FD1}
+.tab{display:block;width:clamp(40px,11vw,58px);aspect-ratio:1;border-radius:6px;border:5px solid #D8C3A0;box-shadow:0 2px 0 rgba(0,0,0,.12)}
+.seq-tray.steps .seq-item,.steps-built .seq-item{position:relative;flex-direction:column;gap:4px;background:var(--paper);border:3px solid var(--line);border-radius:18px;padding:10px 8px;width:clamp(96px,26vw,124px);color:var(--ink)}
+.steps-built .seq-item{background:var(--soft)}
+.seq-item .em{font-size:40px;line-height:1.1}
+.seq-item small{font-size:13px;line-height:1.35;text-align:center}
+.seq-item .no{position:absolute;top:-10px;left:-8px;width:28px;height:28px;border-radius:50%;background:var(--pc);color:#fff;font-family:var(--display);font-weight:400;display:grid;place-items:center}
+/* なぞる */
+.trace-wrap{display:grid;place-items:center}
+canvas.trace{display:block;border-radius:20px;touch-action:none;box-shadow:var(--shadow);background:var(--paper)}
+.trace-ctrl,.btns3{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+/* 3だんかい */
+.steps3{list-style:none;margin:0;padding:0;display:flex;gap:6px;flex-wrap:wrap}
+.steps3 li{border:2px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px;color:var(--muted);background:var(--paper)}
+.steps3 li.on{background:var(--pc);border-color:var(--pc);color:#fff}
+.steps3 li.done{color:var(--ink)}
+.solo{display:grid;place-items:center;background:var(--paper);border-radius:28px;padding:20px;box-shadow:var(--shadow)}
+.solo .em{font-size:clamp(110px,30vw,160px);line-height:1}
+/* おとあわせ */
+.cyl{aspect-ratio:3/4;border-radius:20px;border:4px solid var(--line);background:var(--paper);display:grid;place-items:center;padding:12px;box-shadow:var(--shadow)}
+.cyl svg{width:62%;height:auto}
+.cyl.open{border-color:var(--pc)}
+.cyl.done{border-color:transparent}
 .deco{display:none}
 :root[data-mode="dino"] .deco-dino,:root[data-mode="princess"] .deco-princess{display:inline}
 
@@ -316,6 +359,7 @@ function tone(f, dur = .5, type = 'triangle', vol = .25, when = 0) {
 }
 const chime = () => {
   const m = curMode();
+  if (m === 'monte') { tone(659, .5, 'sine', .1); tone(988, .7, 'sine', .05, .12); return; }
   if (m === 'dino') { sweep(300, 110, .45, 'sawtooth', .1); tone(392, .18, 'square', .07, .32); tone(523, .4, 'square', .07, .44); return; }
   if (m === 'princess') { [1047, 1319, 1568, 2093].forEach((f, i) => tone(f, .35, 'sine', .13, i * .07)); tone(2637, .7, 'sine', .05, .3); return; }
   tone(784, .25, 'sine', .2); tone(1047, .45, 'sine', .2, .12); tone(1319, .5, 'sine', .14, .24);
@@ -379,6 +423,11 @@ const PRINCESS_SVG = `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M22
   <circle cx="37" cy="58" r="4" fill="#F7A1B5" opacity=".8"/><circle cx="63" cy="58" r="4" fill="#F7A1B5" opacity=".8"/><path d="M45 60q5 5 10 0" stroke="#D6336C" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>`;
 const THEMES = {
   normal: { label: 'ふつう', star: '★' },
+  // モンテッソーリ: ごほうび（★・かみふぶき・キャラ）を だささず、しずかに みとめる
+  monte: { label: 'モンテッソーリ', star: '●', quiet: true,
+    icon: '<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="7" y="26" width="26" height="9" rx="1.5" fill="#E79AB2"/><rect x="11" y="18" width="18" height="8" rx="1.5" fill="#EEB0C3"/><rect x="15" y="11" width="10" height="7" rx="1.5" fill="#F4C6D4"/><rect x="18" y="6" width="4" height="5" rx="1" fill="#F8D9E2"/></svg>',
+    greet: 'じぶんで えらんで、じぶんの ペースで ゆっくり やってみよう。',
+    praise: ['できたね', 'よく みたね', 'そうだね', 'じぶんで できたね'] },
   dino: { label: 'きょうりゅう', star: '🥚', svg: DINO_SVG, name: 'ガオくん',
     greet: 'ぼく ガオくん！ いっしょに あそぼう。がおー！',
     praise: ['がおー！ すごい！', 'やったね！ がおー！', 'ガオくんも びっくり！', 'つよい つよい！', 'せいかい だガオ！'],
@@ -415,11 +464,12 @@ function mascotTalk(text) {
 function mascotCheer() { if (T().cheer) mascotTalk(pick(T().cheer)); }
 function modeSelector() {
   return `<section class="modesel"><span class="ml">モード</span>${Object.entries(THEMES).map(([k, t]) => `<button class="mbtn" type="button" data-theme-mode="${k}" aria-pressed="${curMode() === k}">
-    <span class="mi">${t.svg || '<b>★</b>'}</span>${t.label}</button>`).join('')}
-    ${T().greet ? `<p class="greet">${T().svg}<span>${T().greet}</span></p>` : ''}</section>`;
+    <span class="mi">${t.svg || t.icon || "<b>★</b>"}</span>${t.label}</button>`).join('')}
+    ${T().greet ? `<p class="greet">${T().svg || T().icon || ""}<span>${T().greet}</span></p>` : ''}</section>`;
 }
 
 function burst(el) {
+  if (T().quiet) return;
   const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
   const cols = ['#F5B400', '#FF6B6B', '#4DABF7', '#51CF66', '#CC5DE8'];
   for (let i = 0; i < 12; i++) {
@@ -546,6 +596,11 @@ const ICON = {
   mute: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path d="m17 9 5 6M22 9l-5 6"/></svg>',
 };
 const TILE_PIC = {
+  naraberu: '<svg viewBox="0 0 100 100"><rect x="18" y="72" width="64" height="18" rx="2" fill="#FBD3DE"/><rect x="26" y="56" width="48" height="16" rx="2" fill="#FCDDE6"/><rect x="33" y="42" width="34" height="14" rx="2" fill="#FDE7EE"/><rect x="40" y="30" width="20" height="12" rx="2" fill="#FEF0F4"/><rect x="45" y="21" width="10" height="9" rx="1.5" fill="#fff"/></svg>',
+  nazoru: '<svg viewBox="0 0 100 100"><rect x="14" y="10" width="72" height="80" rx="8" fill="#F3C9D4"/><text x="50" y="72" text-anchor="middle" font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="58" fill="#9C8F7D">あ</text><circle cx="66" cy="62" r="7" fill="#fff" opacity=".9"/></svg>',
+  sandankai: '<svg viewBox="0 0 100 100"><rect x="8" y="28" width="26" height="36" rx="5" fill="#fff"/><rect x="37" y="28" width="26" height="36" rx="5" fill="#fff" opacity=".85"/><rect x="66" y="28" width="26" height="36" rx="5" fill="#fff" opacity=".7"/><g font-family="Mochiy Pop One, sans-serif" font-size="20" fill="#7A6545" text-anchor="middle"><text x="21" y="53">1</text><text x="50" y="53">2</text><text x="79" y="53">3</text></g><path d="M14 80h72" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 8"/></svg>',
+  otoawase: '<svg viewBox="0 0 100 100"><g><ellipse cx="32" cy="30" rx="15" ry="5" fill="#F3DDB9"/><path d="M17 30v40c0 4 7 7 15 7s15-3 15-7V30c0 4-7 6-15 6s-15-2-15-6Z" fill="#fff"/></g><g><ellipse cx="68" cy="30" rx="15" ry="5" fill="#F3DDB9"/><path d="M53 30v40c0 4 7 7 15 7s15-3 15-7V30c0 4-7 6-15 6s-15-2-15-6Z" fill="#fff"/></g><path d="M44 14q6-6 12 0M40 8q10-10 20 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg>',
+  seikatsu: '<svg viewBox="0 0 100 100"><circle cx="34" cy="34" r="12" fill="#fff" opacity=".8"/><circle cx="58" cy="26" r="8" fill="#fff" opacity=".6"/><circle cx="70" cy="44" r="6" fill="#fff" opacity=".5"/><path d="M22 84c0-18 10-30 28-30s28 12 28 30Z" fill="#fff"/><rect x="40" y="58" width="20" height="10" rx="5" fill="#9CC6E4"/></svg>',
   iro: '<svg viewBox="0 0 100 100"><circle cx="38" cy="38" r="26" fill="#FFD43B"/><circle cx="62" cy="38" r="26" fill="#74C0FC" opacity=".9"/><circle cx="50" cy="62" r="26" fill="#fff" opacity=".85"/></svg>',
   kazu: '<svg viewBox="0 0 100 100"><text x="50" y="66" text-anchor="middle" font-family="Mochiy Pop One, sans-serif" font-size="44" fill="#fff">123</text><circle cx="22" cy="84" r="6" fill="#FFE8A3"/><circle cx="40" cy="84" r="6" fill="#FFE8A3"/><circle cx="58" cy="84" r="6" fill="#FFE8A3"/><circle cx="76" cy="84" r="6" fill="#FFE8A3" opacity=".5"/></svg>',
   doubutsu: '<svg viewBox="0 0 100 100"><circle cx="26" cy="28" r="13" fill="#FFE3C2"/><circle cx="74" cy="28" r="13" fill="#FFE3C2"/><circle cx="50" cy="56" r="34" fill="#FFE3C2"/><circle cx="38" cy="50" r="5" fill="#3B2A20"/><circle cx="62" cy="50" r="5" fill="#3B2A20"/><ellipse cx="50" cy="66" rx="12" ry="9" fill="#fff"/><circle cx="50" cy="63" r="4" fill="#3B2A20"/></svg>',
@@ -778,27 +833,49 @@ const PAGES = {
       'スタンプ': el => drawMode(el, true),
     },
   },
+  naraberu: {
+    title: 'ならべる', sub: 'おおきい じゅん・ながい じゅん', color: 'var(--c-naraberu)',
+    modes: { 'ピンクタワー': el => towerMode(el), 'かずの ぼう': el => rodMode(el), 'いろの こさ': el => gradeMode(el) },
+  },
+  nazoru: {
+    title: 'なぞる', sub: 'すなもじ', color: 'var(--c-nazoru)',
+    modes: { 'すうじ': el => traceMode(el, 'num'), 'ひらがな': el => traceMode(el, 'kana') },
+  },
+  sandankai: {
+    title: '3だんかい', sub: 'なまえを おぼえる', color: 'var(--c-sandankai)',
+    modes: { 'はじめる': el => threeStep(el) },
+  },
+  otoawase: {
+    title: 'おとあわせ', sub: 'おなじ おとを さがす', color: 'var(--c-otoawase)',
+    modes: { 'あそぶ': el => soundMatch(el) },
+  },
+  seikatsu: {
+    title: 'せいかつ', sub: 'じゅんばんに ならべる', color: 'var(--c-seikatsu)',
+    modes: { 'あそぶ': el => routineMode(el) },
+  },
 };
-const ORDER = ['iro', 'kazu', 'katachi', 'hiragana', 'doubutsu', 'norimono', 'tabemono', 'kage', 'kuraberu', 'karada', 'pair', 'oto', 'oekaki'];
+const ORDER = ['iro', 'kazu', 'katachi', 'hiragana', 'doubutsu', 'norimono', 'tabemono', 'kage', 'kuraberu', 'karada', 'pair', 'oto', 'oekaki', 'naraberu', 'nazoru', 'sandankai', 'otoawase', 'seikatsu'];
+// モンテッソーリの「おしごと」。ホームでは べつの まとまりに ならべる
+const MONTE = ['naraberu', 'nazoru', 'sandankai', 'otoawase', 'seikatsu'];
 const state = { range: store.get('range', 5), pairs: store.get('pairs', 3), mode: {}, paint: null };
 
 /* ---------- ねんれい べつの せってい ---------- */
 // n: クイズの せんたくしの かず / pages: ホームに だす じゅんばん / modes: ページごとに だす モードと その じゅんばん（ない ときは ぜんぶ）
 const AGES = {
-  2: { label: '2さい', color: '#E0703A', n: 2, colors: 4, shapes: 3, ranges: [3], pairs: [2],
-    pages: ['doubutsu', 'norimono', 'tabemono', 'iro', 'kazu', 'katachi', 'karada', 'kuraberu', 'pair', 'oto', 'oekaki'],
+  2: { label: '2さい', color: '#E0703A', n: 2, colors: 4, shapes: 3, ranges: [3], pairs: [2], mn: 4, seq: 3, kanaRows: 0, num: 0,
+    pages: ['doubutsu', 'norimono', 'tabemono', 'iro', 'kazu', 'katachi', 'karada', 'kuraberu', 'pair', 'oto', 'oekaki', 'naraberu', 'sandankai', 'otoawase', 'seikatsu'],
     modes: { kazu: ['かぞえる'], tabemono: ['さわる', 'クイズ'], oto: ['ピアノ'], kuraberu: ['クイズ'] },
     lead: 'さわると こえで なまえを おしえてくれるよ。クイズは 2つから えらぶよ。',
     note: '2歳は「さわる」で名前を聞くことから始めましょう。クイズは2択、いろは4色、かずは1〜3、かたちは まる・さんかく・しかく です。',
     pick: 'どうぶつ・のりもの・からだ。2つから えらぶ クイズ' },
-  3: { label: '3さい', color: '#2F9156', n: 3, colors: 8, shapes: 6, ranges: [5], pairs: [2, 3],
-    pages: ['iro', 'katachi', 'kazu', 'doubutsu', 'norimono', 'tabemono', 'kage', 'kuraberu', 'karada', 'hiragana', 'pair', 'oto', 'oekaki'],
+  3: { label: '3さい', color: '#2F9156', n: 3, colors: 8, shapes: 6, ranges: [5], pairs: [2, 3], mn: 6, seq: 4, kanaRows: 2, num: 5,
+    pages: ['iro', 'katachi', 'kazu', 'doubutsu', 'norimono', 'tabemono', 'kage', 'kuraberu', 'karada', 'hiragana', 'pair', 'oto', 'oekaki', 'naraberu', 'nazoru', 'sandankai', 'otoawase', 'seikatsu'],
     modes: { hiragana: ['ひょう'] },
     lead: 'いろ・かたち・かず・かげあて。クイズは 3つから えらぶよ。',
     note: '3歳はクイズが3択、かずは1〜5です。ひらがなは表をさわって音を聞くところから。かげあて・くらべっこで「よく見て考える」遊びにも挑戦できます。',
     pick: 'いろ・かたち・かげあて。3つから えらぶ クイズ' },
-  4: { label: '4さい', color: '#2F72C2', n: 4, colors: 8, shapes: 6, ranges: [5, 10], pairs: [3, 4],
-    pages: ['hiragana', 'kazu', 'kage', 'kuraberu', 'tabemono', 'iro', 'katachi', 'doubutsu', 'norimono', 'karada', 'pair', 'oto', 'oekaki'],
+  4: { label: '4さい', color: '#2F72C2', n: 4, colors: 8, shapes: 6, ranges: [5, 10], pairs: [3, 4], mn: 8, seq: 5, kanaRows: 10, num: 9,
+    pages: ['hiragana', 'kazu', 'kage', 'kuraberu', 'tabemono', 'iro', 'katachi', 'doubutsu', 'norimono', 'karada', 'pair', 'oto', 'oekaki', 'naraberu', 'nazoru', 'sandankai', 'otoawase', 'seikatsu'],
     modes: { hiragana: ['クイズ', 'ひょう'], kazu: ['いくつ？', 'かぞえる'], iro: ['クイズ', 'さわる'], katachi: ['クイズ', 'さわる'], doubutsu: ['クイズ', 'さわる'],
       norimono: ['クイズ', 'さわる'], tabemono: ['なかまわけ', 'クイズ', 'さわる'], karada: ['クイズ', 'さわる'] },
     lead: 'ひらがな・10までの かず・なかまわけ。クイズは 4つから えらぶよ。',
@@ -1035,10 +1112,216 @@ function drawMode(el, stampMode) {
   };
 }
 
+/* ---------- モンテッソーリの おしごと ---------- */
+// ならべる きょうざいの きょうつうの しくみ。items は ただしい じゅんばん。まちがえた ものは うごかず、じぶんで きづいて なおせる（ごびゅうの ていせい）
+function sequenceTask(el, o) {
+  const n = o.items.length; let k = 0;
+  el.innerHTML = `<p class="hint">${o.prompt}</p><div class="seq-built ${o.builtClass || ''}" aria-live="polite"></div>
+    <div class="seq-tray ${o.trayClass || ''}">${shuffle(o.items.map((it, i) => i)).map(i => `<button class="seq-item" type="button" data-i="${i}" aria-label="${o.label ? o.label(o.items[i], i) : 'えらぶ'}">${o.render(o.items[i], i)}</button>`).join('')}</div>
+    <div class="result"></div>`;
+  say(o.prompt);
+  const built = $('.seq-built', el);
+  $('.seq-tray', el).onclick = e => {
+    const b = e.target.closest('.seq-item'); if (!b) return;
+    const i = +b.dataset.i;
+    if (i !== k) { b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); boop(); track('ng'); say(o.hint); return; }
+    built.appendChild(b); b.disabled = true; k++; track('ok');
+    tone(330 + k * 50, .3, 'sine', .12); if (o.onPlace) o.onPlace(o.items[i], k, b);
+    if (k === n) setTimeout(() => {
+      if (!el.isConnected) return;
+      chime(); addStar('done'); burst(built); say(o.doneSay || praise());
+      $('.result', el).innerHTML = '<button class="next" type="button">もういちど</button>';
+      $('.next', el).onclick = () => o.again();
+    }, 500);
+  };
+}
+function towerMode(el) {
+  const n = cfg().mn, items = range1(n).reverse();
+  sequenceTask(el, { items, prompt: 'いちばん おおきい ものから つみあげよう', hint: 'もっと おおきいのは どれかな',
+    render: s => `<span class="cube" style="--s:${s}"></span>`, builtClass: 'tower', trayClass: 'cubes', doneSay: 'ピンクタワーが できたね', again: () => towerMode(el) });
+}
+function rodMode(el) {
+  const n = cfg().mn, items = range1(n);
+  sequenceTask(el, { items, prompt: 'いちばん みじかい ぼうから ならべよう', hint: 'もっと みじかいのは どれかな',
+    render: s => `<span class="rod">${'<i></i>'.repeat(s)}</span>`, label: s => `${s}の ぼう`, builtClass: 'rods', trayClass: 'rods',
+    onPlace: s => say(NUMW[s] || String(s)), doneSay: 'かずの ぼうが ならんだね', again: () => rodMode(el) });
+}
+function gradeMode(el) {
+  const n = Math.min(cfg().mn, 7), [cname, h] = pick(GRADE_HUES);
+  const items = range1(n).map(i => `hsl(${h} 62% ${Math.round(28 + (i - 1) * (60 / (n - 1)))}%)`);
+  sequenceTask(el, { items, prompt: `いちばん こい ${cname}から ならべよう`, hint: 'もっと こいのは どれかな',
+    render: c => `<span class="tab" style="background:${c}"></span>`, builtClass: 'row', doneSay: `こい ${cname}から うすい ${cname}まで ならんだね`, again: () => gradeMode(el) });
+}
+function routineMode(el) {
+  const r = pick(ROUTINES), items = r.steps.slice(0, cfg().seq);
+  sequenceTask(el, { items, prompt: `「${r.name}」の じゅんばんに ならべよう`, hint: 'その まえに することは なにかな',
+    render: s => `<span class="em">${s[0]}</span><small>${s[1]}</small>`, label: s => s[1], builtClass: 'row steps-built', trayClass: 'steps',
+    onPlace: (s, k, b) => { b.insertAdjacentHTML('afterbegin', `<b class="no">${k}</b>`); say(s[1]); }, doneSay: `${r.name}、できたね`, again: () => routineMode(el) });
+}
+const range1 = n => Array.from({ length: n }, (_, i) => i + 1);
+const GRADE_HUES = [['あお', 214], ['あか', 356], ['きいろ', 44], ['みどり', 130], ['むらさき', 275]];
+const ROUTINES = [
+  { name: 'てを あらう', steps: [['🚰', 'みずを だす'], ['🧼', 'せっけんを つける'], ['👐', 'ごしごし あらう'], ['💧', 'みずで ながす'], ['🧻', 'タオルで ふく']] },
+  { name: 'はを みがく', steps: [['🪥', 'はぶらしを もつ'], ['😁', 'ごしごし みがく'], ['🥛', 'くちを ゆすぐ'], ['🚿', 'はぶらしを あらう'], ['✨', 'ぴかぴか']] },
+  { name: 'あさの じゅんび', steps: [['⏰', 'おきる'], ['👕', 'ふくを きがえる'], ['🍚', 'あさごはんを たべる'], ['🪥', 'はを みがく'], ['🎒', 'おでかけ']] },
+  { name: 'おせんたく', steps: [['🧺', 'せんたくものを あつめる'], ['🫧', 'せんたくきで あらう'], ['👚', 'そとに ほす'], ['☀️', 'かわかす'], ['👕', 'たたむ']] },
+  { name: 'おやつの じかん', steps: [['🧼', 'てを あらう'], ['🍽️', 'おさらを ならべる'], ['🍪', 'おやつを たべる'], ['🙏', 'ごちそうさま'], ['🧽', 'かたづける']] },
+];
+
+/* なぞる（すなもじ）: ざらざらの もじを ゆびで なぞる。なぞった ところが もじの 6わりを こえたら できあがり */
+function traceMode(el, kind) {
+  const list = kind === 'kana'
+    ? KANA.filter(k => k.row < cfg().kanaRows).map(k => ({ ch: k.ch, say: `${k.ch}。 ${k.word}の ${k.ch}`, kana: true }))
+    : range1(cfg().num).map(i => ({ ch: String(i), say: NUMW[i] }));
+  state.trace = state.trace || {};
+  let idx = Math.min(state.trace[kind] || 0, list.length - 1);
+  el.innerHTML = `<div class="trace-wrap"><canvas class="trace" aria-label="なぞる もじ"></canvas></div>
+    <div class="trace-ctrl"><button class="chip" type="button" id="tPrev" aria-label="まえの もじ">◀</button><button class="chip" type="button" id="tHear">きく</button><button class="chip" type="button" id="tClear">けす</button><button class="chip" type="button" id="tNext" aria-label="つぎの もじ">▶</button></div>
+    <div class="result"><p class="hint">ゆびで ゆっくり なぞってみよう</p></div>`;
+  const cv = $('.trace', el), ctx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const side = Math.min($('.trace-wrap', el).clientWidth, 360), S = Math.round(side * dpr);
+  cv.width = cv.height = S; cv.style.width = cv.style.height = side + 'px';
+  const ink = document.createElement('canvas'); ink.width = ink.height = S; const ictx = ink.getContext('2d');
+  const mask = document.createElement('canvas'); mask.width = mask.height = S; const mctx = mask.getContext('2d');
+  // すなかみの ざらざら
+  const grain = document.createElement('canvas'); grain.width = grain.height = 8; const g = grain.getContext('2d');
+  g.fillStyle = '#9C8F7D'; g.fillRect(0, 0, 8, 8); for (let i = 0; i < 18; i++) { g.fillStyle = Math.random() < .5 ? '#B5A892' : '#7E7262'; g.fillRect(rnd8(), rnd8(), 1.5, 1.5); }
+  const sand = ctx.createPattern(grain, 'repeat');
+  let pts = [], done = false, last = null;
+  const font = () => `900 ${Math.round(S * .74)}px "Zen Maru Gothic","Hiragino Maru Gothic ProN","Meiryo",sans-serif`;
+  function board(c, fill) {
+    c.clearRect(0, 0, S, S);
+    c.fillStyle = kind === 'kana' ? '#F3C9D4' : '#BFDCC6'; roundRect(c, 0, 0, S, S, S * .06); c.fill();
+    c.font = font(); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = fill; c.fillText(list[idx].ch, S / 2, S * .54);
+  }
+  function setup() {
+    const it = list[idx]; done = false; ictx.clearRect(0, 0, S, S);
+    board(ctx, sand);
+    mctx.clearRect(0, 0, S, S); mctx.font = font(); mctx.textAlign = 'center'; mctx.textBaseline = 'middle'; mctx.fillStyle = '#000'; mctx.fillText(it.ch, S / 2, S * .54);
+    const data = mctx.getImageData(0, 0, S, S).data, step = Math.max(4, Math.round(S / 70)); pts = [];
+    for (let y = 0; y < S; y += step) for (let x = 0; x < S; x += step) if (data[(y * S + x) * 4 + 3] > 128) pts.push(y * S + x);
+    $('.result', el).innerHTML = '<p class="hint">ゆびで ゆっくり なぞってみよう</p>';
+    state.trace[kind] = idx; say(it.say);
+  }
+  const ready = document.fonts && document.fonts.load ? document.fonts.load(font(), list[idx].ch).catch(() => {}) : Promise.resolve();
+  ready.then(() => { if (el.isConnected) setup(); });
+  const pos = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * dpr, (e.clientY - r.top) * dpr]; };
+  const line = (c, a, b, w, col) => { c.strokeStyle = col; c.lineWidth = w; c.lineCap = 'round'; c.beginPath(); c.moveTo(...a); c.lineTo(...b); c.stroke(); };
+  cv.addEventListener('pointerdown', e => { if (done) return; e.preventDefault(); actx(); cv.setPointerCapture(e.pointerId); last = pos(e); line(ctx, last, last, S * .05, 'rgba(43,93,171,.75)'); line(ictx, last, last, S * .09, '#000'); });
+  cv.addEventListener('pointermove', e => { if (!last || done) return; const p = pos(e); line(ctx, last, p, S * .05, 'rgba(43,93,171,.75)'); line(ictx, last, p, S * .09, '#000'); last = p; });
+  const end = () => {
+    if (!last) return; last = null;
+    const d = ictx.getImageData(0, 0, S, S).data, hit = pts.filter(i => d[i * 4 + 3] > 0).length;
+    if (pts.length && hit / pts.length >= .6 && !done) {
+      done = true; board(ctx, kind === 'kana' ? '#C25D78' : '#3D7A5A');
+      chime(); addStar('done'); if (list[idx].kana) markKana(list[idx].ch, 1); say(`${praise()}。 ${list[idx].say}`);
+      $('.result', el).innerHTML = '<button class="next" type="button">つぎの もじ</button>';
+      $('.next', el).onclick = () => { idx = (idx + 1) % list.length; setup(); };
+    }
+  };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  $('#tPrev', el).onclick = () => { idx = (idx - 1 + list.length) % list.length; setup(); };
+  $('#tNext', el).onclick = () => { idx = (idx + 1) % list.length; setup(); };
+  $('#tHear', el).onclick = () => say(list[idx].say);
+  $('#tClear', el).onclick = () => setup();
+}
+const rnd8 = () => Math.floor(Math.random() * 8);
+function roundRect(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+
+/* 3だんかいの レッスン: 1. これは ○○（おしえる） 2. ○○は どれ？（みつける） 3. これは なに？（じぶんで いう） */
+function threeStep(el) {
+  const pool = pick([ANIMALS, FOODS, VEHICLES]), items = shuffle(pool).slice(0, cfg().n === 2 ? 2 : 3);
+  const steps = s => `<ol class="steps3">${['なまえを きく', 'どれ？', 'これは なに？'].map((t, i) => `<li class="${i === s ? 'on' : i < s ? 'done' : ''}">${i + 1}. ${t}</li>`).join('')}</ol>`;
+  const card = (v, i, lbl) => `<button class="card" type="button" data-i="${i}"><div class="em">${v.em}</div>${lbl ? `<div class="lbl">${v.label || v.name}</div>` : ''}</button>`;
+  function one() {
+    const heard = new Set();
+    el.innerHTML = steps(0) + `<p class="hint">ひとつずつ さわって、なまえを きこう</p><div class="board">${items.map((v, i) => card(v, i, false)).join('')}</div><div class="result"></div>`;
+    say('ひとつずつ さわって、なまえを きこう');
+    $('.board', el).onclick = e => {
+      const b = e.target.closest('.card'); if (!b) return; const v = items[+b.dataset.i];
+      boing(b); track('touch'); say(`これは ${v.name}`);
+      if (!b.querySelector('.lbl')) b.insertAdjacentHTML('beforeend', `<div class="lbl">${v.label || v.name}</div>`);
+      heard.add(v);
+      if (heard.size === items.length && !$('.next', el)) { $('.result', el).innerHTML = '<button class="next" type="button">つぎへ</button>'; $('.next', el).onclick = two; }
+    };
+  }
+  function two() {
+    const order = shuffle(items); let k = 0, busy = false;
+    el.innerHTML = steps(1) + `<div class="prompt"><div class="prompt-text"></div><button class="again" type="button" aria-label="もういちど きく">${ICON.speaker}</button></div><div class="board">${shuffle(items).map(v => card(v, items.indexOf(v), false)).join('')}</div>`;
+    const ask = () => { $('.prompt-text', el).innerHTML = `<em>${order[k].label || order[k].name}</em> は どれ？`; say(`${order[k].name}は どれ？`); };
+    $('.again', el).onclick = ask; ask();
+    $('.board', el).onclick = e => {
+      const b = e.target.closest('.card'); if (!b || busy || k >= order.length) return; const v = items[+b.dataset.i];
+      if (v !== order[k]) { b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); track('ng'); say(`これは ${v.name}。 ${order[k].name}は どれ？`); return; }
+      boing(b); track('ok'); tone(660, .3, 'sine', .12); k++; busy = true;
+      if (k < order.length) setTimeout(() => { busy = false; if (el.isConnected) ask(); }, 700);
+      else setTimeout(() => { if (el.isConnected) three(); }, 900);
+    };
+  }
+  function three() {
+    const order = shuffle(items); let k = 0, busy = false;
+    const show = () => {
+      const v = order[k];
+      el.innerHTML = steps(2) + `<div class="solo"><span class="em">${v.em}</span></div><p class="hint">これは なに？ こえに だして いってみよう</p>
+        <div class="btns3"><button class="chip" type="button" id="hearIt">こたえを きく</button><button class="next" type="button" id="said">いえた！</button></div>`;
+      say('これは なに？');
+      $('#hearIt', el).onclick = () => say(`${v.name}`);
+      $('#said', el).onclick = () => {
+        track('ok'); k++;
+        if (k < order.length) return show();
+        chime(); addStar('done'); say(`${praise()}。 ${items.map(x => x.name).join('、')}を おぼえたね`);
+        el.innerHTML = steps(3) + `<div class="board">${items.map((x, i) => card(x, i, true)).join('')}</div><div class="result"><button class="next" type="button">べつの なかまで やる</button></div>`;
+        burst($('.board', el)); $('.next', el).onclick = () => threeStep(el);
+      };
+    };
+    show();
+  }
+  one();
+}
+
+/* おとあわせ（おんかんベル・ざつおんとう）: みためは おなじ。おとを きいて おなじ ものを さがす */
+const MATCH_SOUNDS = [[262, 'sine'], [392, 'triangle'], [523, 'sine'], [698, 'triangle'], [880, 'sine']];
+const MATCH_COLORS = ['#F3B6C6', '#B8D8F2', '#C6E6B8', '#F6DDA0', '#D9C4F0'];
+function soundMatch(el) {
+  const n = cfg().pairs[cfg().pairs.length - 1], kinds = shuffle(range1(MATCH_SOUNDS.length).map(i => i - 1)).slice(0, n), cards = shuffle([...kinds, ...kinds]);
+  let open = [], done = 0, locked = false;
+  const play = s => { const [f, t] = MATCH_SOUNDS[s]; tone(f, .6, t, .22); tone(f * 2, .4, 'sine', .04); };
+  el.innerHTML = `<p class="hint">さわると おとが なるよ。おなじ おとを 2つ みつけよう</p><div class="pairs cyls" style="--cols:${n <= 2 ? 2 : n === 3 ? 3 : 4}">${cards.map((c, i) => `<button class="cyl" type="button" data-i="${i}" aria-label="おとの つつ"><svg viewBox="0 0 40 56" aria-hidden="true"><ellipse cx="20" cy="8" rx="14" ry="5" fill="#E2C49A"/><path d="M6 8v38c0 3 6 6 14 6s14-3 14-6V8c0 3-6 5-14 5S6 11 6 8Z" fill="#C89F6A"/><ellipse cx="20" cy="8" rx="9" ry="3" fill="#B0844F"/></svg></button>`).join('')}</div><div class="result"></div>`;
+  say('おなじ おとを さがそう');
+  $('.pairs', el).onclick = e => {
+    const b = e.target.closest('.cyl'); if (!b || locked || b.classList.contains('done')) return;
+    play(cards[+b.dataset.i]); boing(b);
+    if (b.classList.contains('open')) return;
+    b.classList.add('open'); open.push(b);
+    if (open.length < 2) return;
+    const [x, y] = open; open = [];
+    if (cards[+x.dataset.i] === cards[+y.dataset.i]) {
+      const col = MATCH_COLORS[cards[+x.dataset.i]];
+      [x, y].forEach(c => { c.classList.replace('open', 'done'); c.style.background = col; }); done++; track('ok');
+      if (done === n) setTimeout(() => {
+        if (!el.isConnected) return;
+        chime(); addStar('done'); say(`${praise()}。 ぜんぶ みつけたね`);
+        $('.result', el).innerHTML = '<button class="next" type="button">もういちど</button>'; $('.next', el).onclick = () => soundMatch(el);
+      }, 800);
+    } else {
+      locked = true; track('ng');
+      setTimeout(() => { x.classList.remove('open'); y.classList.remove('open'); locked = false; }, 900);
+    }
+  };
+}
+
+function tileGroups(pages) {
+  const tile = id => { const p = PAGES[id]; return `<a class="tile" href="#${id}" style="background:${p.color}"><span class="pic">${TILE_PIC[id]}</span><b>${p.title}</b><small>${p.sub}</small></a>`; };
+  const normal = pages.filter(id => !MONTE.includes(id)), monte = pages.filter(id => MONTE.includes(id));
+  const a = `<nav class="tiles">${normal.map(tile).join('')}</nav>`;
+  const b = monte.length ? `<section class="monte-group"><h2>モンテッソーリの おしごと</h2><p class="small">じぶんで えらんで、じぶんの ペースで。まちがえた ものは うごかないので、じぶんで きづいて なおせます。</p><nav class="tiles">${monte.map(tile).join('')}</nav></section>` : '';
+  return curMode() === 'monte' ? b + a : a + b;
+}
+
 /* ---------- がめん ---------- */
 const app = $('#app');
 function topBar(inner) {
-  return `<header class="top">${inner}${mascotMini()}<span class="pill" title="あつめた ほし"><span class="st">${T().star}</span><span id="starCount">${rec.stars}</span></span>
+  return `<header class="top">${inner}${mascotMini()}${T().quiet ? "" : `<span class="pill" title="あつめた ほし"><span class="st">${T().star}</span><span id="starCount">${rec.stars}</span></span>`}
     <button class="pill btn" id="soundBtn" type="button" aria-pressed="${soundOn}" aria-label="おと">${soundOn ? ICON.speaker : ICON.mute}${soundOn ? 'おと あり' : 'おと なし'}</button></header>`;
 }
 function bindSound() {
@@ -1072,13 +1355,13 @@ function renderHome() {
   app.innerHTML = topBar(`<h1>あそんでまなぼ</h1>${agePill}${recPill()}`) + `
     <div class="hello"><p>${c.lead}せいかいすると ${T().star}が たまります。</p></div>
     ${modeSelector()}
-    <nav class="tiles">${c.pages.map(id => { const p = PAGES[id]; return `<a class="tile" href="#${id}" style="background:${p.color}"><span class="pic">${TILE_PIC[id]}</span><b>${p.title}</b><small>${p.sub}</small></a>`; }).join('')}</nav>
+    ${tileGroups(c.pages)}
     <div class="note"><b>おうちの方へ（${c.label}むけ）</b>　${c.note}音声はブラウザの読み上げ機能を使うので、音が出ないときは端末のマナーモードや音量を確認してください。${age === 4 ? `<br><a href="${JUKEN_URL}" style="color:var(--c-katachi)">おうちじゅけんドリル（小学校受験のペーパー対策）へ</a>` : ''}${others}</div>`;
   bindSound();
   const ab = $('#ageBtn'); if (ab) ab.onclick = () => { choosing = true; renderHome(); };
   app.querySelectorAll('[data-theme-mode]').forEach(b => b.onclick = () => {
     rec.theme = b.dataset.themeMode; saveRec(); applyTheme(); actx(); renderHome(); chime();
-    if (T().greet) { say(T().greet); mascotTalk(T().cheer[0]); } else say('ふつう モード');
+    if (T().greet) { say(T().greet); if (T().cheer) mascotTalk(T().cheer[0]); } else say('ふつう モード');
   });
 }
 function renderPage(id) {
